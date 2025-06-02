@@ -18,13 +18,9 @@
                     <li><a href="{{ route('login') }}">Login</a></li>
                 @else
                     <li>
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                           class="logout-btn">
-                            Logout
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             @csrf
+                            <button type="submit">Logout</button>
                         </form>
                     </li>
                 @endguest

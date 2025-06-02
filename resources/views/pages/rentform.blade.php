@@ -1,7 +1,8 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
-@section('content')
-
+@section('content') --}}
+<x-navbar>
+</x-navbar>
 <section class="rent-header" style="background: #e8f1f8; padding: 60px 0; text-align: center;">
     <div class="container">
         <h1>Rent a Field</h1>
@@ -30,7 +31,7 @@
             </div>
         @endif
 
-        <form action="{{ route('rent.book') }}" method="POST">
+        <form action="" method="POST">
             @csrf
 
             <div class="form-group" style="margin-bottom: 15px;">
@@ -87,5 +88,9 @@
         </form>
     </div>
 </section>
+{{-- 
+@endsection --}}
 
-@endsection
+
+<x-footer>
+</x-footer>
