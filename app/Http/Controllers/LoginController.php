@@ -10,7 +10,7 @@ use App\Models\User;
 class LoginController extends Controller
 {
     // Tampilkan form login
-    public function showLoginForm()
+    public function index()
     {
         return view('auth.login');
     }
