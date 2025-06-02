@@ -20,10 +20,11 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone_number' => ['required', 'string', 'max:15'],
-            'role' => ['required', 'in:user,admin'],
+            'role' => ['required', 'in:CUSTOMER,OWNER'],
         ]);
 
         if ($validator->fails()) {
@@ -34,6 +35,7 @@ class RegisterController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
@@ -41,8 +43,8 @@ class RegisterController extends Controller
         ]);
 
         if ($user) {
-            Auth::login($user);
-            return redirect()->route('dashboard')->with('success', 'Registration successful!');
+            // Auth::login($user);
+            return redirect()->route('login')->with('success', 'Registration successful!');
         }
 
         return redirect()->back()->withErrors(['error' => 'Failed to create user']);
