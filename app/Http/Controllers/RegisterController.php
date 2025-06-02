@@ -18,7 +18,7 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -27,26 +27,23 @@ class RegisterController extends Controller
             'role' => ['required', 'in:CUSTOMER,OWNER'],
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // dd($validatedData);
+        $data = [
+            'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
+            'phone_number' => $validatedData['phone_number'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'role' => $validatedData['role']
+        ];
 
-        $user = User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number,
-            'role' => $request->role,
-        ]);
 
-        if ($user) {
+        try {
+            $user = User::create($data);
             // Auth::login($user);
             return redirect()->route('login')->with('success', 'Registration successful!');
+        } catch (\Exception $e) {
+            return redirect()->route('register')->with('failed', 'Failed to create user');
         }
-
-        return redirect()->back()->withErrors(['error' => 'Failed to create user']);
     }
 }
