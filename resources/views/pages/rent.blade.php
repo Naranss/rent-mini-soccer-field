@@ -1,7 +1,8 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
-@section('content')
-
+@section('content') --}}
+<x-navbar>
+</x-navbar>
 <section class="rent-header" style="background: #e8f1f8; padding: 60px 0; text-align: center;">
     <div class="container">
         <h1>Rent Mini Soccer Field</h1>
@@ -53,5 +54,9 @@
 
     </div>
 </section>
+{{-- 
+@endsection --}}
 
-@endsection
+
+<x-footer>
+</x-footer>

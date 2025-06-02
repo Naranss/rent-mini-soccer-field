@@ -1,7 +1,8 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
-@section('content')
-
+@section('content') --}}
+<x-navbar>
+</x-navbar>
 <!-- <section class="about-hero" style="background: url('{{ asset('assets/images/about-hero.jpg') }}') center/cover no-repeat; padding: 120px 20px; color: white; text-align: center;"> -->
     <div class="container">
         <h1>About Yapping Sport Center</h1>
@@ -45,4 +46,8 @@
     </div>
 </section>
 
-@endsection
+{{-- @endsection --}}
+
+
+<x-footer>
+</x-footer>

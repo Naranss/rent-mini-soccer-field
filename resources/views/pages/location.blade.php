@@ -1,7 +1,8 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
-@section('content')
-
+@section('content') --}}
+<x-navbar>
+</x-navbar>
 <!-- <section class="location-hero" style="background: url('{{ asset('assets/images/location-hero.jpg') }}') center/cover no-repeat; padding: 100px 20px; color: white; text-align: center;"> -->
     <div class="container">
         <h1>Our Location</h1>
@@ -37,5 +38,9 @@
         </div>
     </div>
 </section>
+{{-- 
+@endsection --}}
 
-@endsection
+
+<x-footer>
+</x-footer>

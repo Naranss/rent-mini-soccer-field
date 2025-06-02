@@ -1,21 +1,21 @@
-@extends('layouts.app') {{-- atau sesuaikan layoutmu --}}
-
-@section('content')
-
+<x-navbar>
+</x-navbar>
     {{-- Hero Section --}}
     <!-- <section class="hero" style="background: url('{{ asset('assets/images/field-bg.jpg') }}') center/cover no-repeat; padding: 100px 0; color: white; text-align: center;"> -->
-        <div class="container">
-            <h1>Welcome to Yapping Sport Center</h1>
-            <p>Your #1 destination for sport field rentals in Sleman</p>
-            <a href="/rent" class="btn-primary">Book a Field Now</a>
-        </div>
+    <div class="container">
+        <h1>Welcome to Yapping Sport Center</h1>
+        <p>Your #1 destination for sport field rentals in Sleman</p>
+        <a href="/rent" class="btn-primary">Book a Field Now</a>
+    </div>
     </section>
 
     {{-- About Us Section --}}
     <section class="about-us" style="padding: 60px 20px; background-color: #f9f9f9;">
         <div class="container">
             <h2>About Us</h2>
-            <p>Yapping Sport Center has been providing high-quality sport fields and facilities since 2015. We offer football, futsal, and badminton courts with professional-grade lighting, clean locker rooms, and online reservation support.</p>
+            <p>Yapping Sport Center has been providing high-quality sport fields and facilities since 2015. We offer
+                football, futsal, and badminton courts with professional-grade lighting, clean locker rooms, and online
+                reservation support.</p>
         </div>
     </section>
 
@@ -46,9 +46,13 @@
             <h2>Find Us</h2>
             <p>Jl. Sportiva No. 10, Maguwoharjo, Sleman, Yogyakarta</p>
             <div style="margin-top: 20px;">
-                <iframe src="https://www.google.com/maps?q=Yapping%20Sport%20Center&output=embed" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps?q=Yapping%20Sport%20Center&output=embed" width="100%"
+                    height="300" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
+{{-- </x-layout> --}}
 
-@endsection
+
+<x-footer>
+</x-footer>
