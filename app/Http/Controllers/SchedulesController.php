@@ -65,7 +65,7 @@ class SchedulesController extends Controller
     {
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'date' => 'required|date',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
             'is_available' => 'required|in:available,booked',
@@ -82,19 +82,5 @@ class SchedulesController extends Controller
         $schedule->delete();
         return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil dihapus!');
     }
-     public function book(Request $request, $id)
-    {
-        $schedule = Schedule::findOrFail($id);
-
-        // Cek apakah jadwal masih tersedia
-        if ($schedule->is_available != 'available') {
-            return back()->with('error', 'Jadwal sudah dibooking.');
-        }
-
-        // Proses booking 
-        $schedule->is_available = 'booked';
-        $schedule->save();
-
-        return back()->with('success', 'Booking berhasil!');
-    }
+     
 }

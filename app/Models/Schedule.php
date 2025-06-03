@@ -13,13 +13,13 @@ class Schedule extends Model
     protected $fillabel = [
         'start_time',
         'end_time',
+        'hari',
         'is_available',
     ];
 
     protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
-        'is_available' => 'enum',
+        'hari'=> 'enum',
+        'is_available' => 'enum'
     ];
     public function field()
     {
