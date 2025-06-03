@@ -13,6 +13,7 @@ class Field extends Model
     protected $fillable=[
         'name',
         'type',
+        'owner_id',
         'description',
         'price', 
         'status',
@@ -22,4 +23,8 @@ class Field extends Model
         'price' => 'integer',
         'status' => 'enum',
     ];
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
 }

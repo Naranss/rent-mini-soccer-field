@@ -32,6 +32,7 @@ class FieldController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|in:futsal,minisoccer',
+            'owner_id' => 'required|exists:users,id',
             'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
             'status' => 'required|in:available,booked',

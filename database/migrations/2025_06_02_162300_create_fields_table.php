@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->enum('type', ['futsal','minisoccer']);
             $table->text('description')->nullable();
             $table->integer('price')->default(0);
