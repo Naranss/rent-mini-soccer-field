@@ -82,5 +82,20 @@ class SchedulesController extends Controller
         $schedule->delete();
         return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil dihapus!');
     }
+    public function book(Request $request, $id)
+    {
+        $schedule = Schedule::findOrFail($id);
+
+        // Cek apakah jadwal masih tersedia
+        if ($schedule->is_available != 'available') {
+            return back()->with('error', 'Jadwal sudah dibooking.');
+        }
+
+        // Proses booking 
+        $schedule->is_available = 'booked';
+        $schedule->save();
+
+        return back()->with('success', 'Booking berhasil!');
+    }
      
 }
