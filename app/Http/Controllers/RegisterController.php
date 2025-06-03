@@ -48,3 +48,5 @@ class RegisterController extends Controller
         return redirect()->back()->withErrors(['error' => 'Failed to create user']);
     }
 }
+
+#REVISI
