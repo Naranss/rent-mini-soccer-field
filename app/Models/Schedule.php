@@ -14,12 +14,10 @@ class Schedule extends Model
         'start_time',
         'end_time',
         'hari',
-        'is_available',
     ];
 
     protected $casts = [
         'hari'=> 'enum',
-        'is_available' => 'enum'
     ];
     public function field()
     {

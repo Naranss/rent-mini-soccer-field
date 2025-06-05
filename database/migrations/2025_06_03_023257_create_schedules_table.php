@@ -17,7 +17,6 @@ return new class extends Migration
             $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
             $table->string('start_time');
             $table->string('end_time');
-            $table->enum('is_available', ['available', 'booked'])->default('available');
             $table->timestamps();
         });
     }

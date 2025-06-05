@@ -68,7 +68,6 @@ class SchedulesController extends Controller
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
-            'is_available' => 'required|in:available,booked',
         ]);
         $schedule->update($validated);
         return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil diupdate!');
