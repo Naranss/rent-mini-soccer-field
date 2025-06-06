@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <title>{{ $title ?? 'Yapping Mini Soccer' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/layout-login.css') }}">
 </head>
-<body class="bg-black flex items-center justify-center min-h-screen">
-    <div class="flex w-full max-w-6xl mx-auto">
-        <!-- Background Image -->
-        <div class="w-1/2 hidden md:block">
-            <img src="{{ asset('images/44.png') }}" class="object-cover h-full w-full" alt="soccer net">
-        </div>
+<body class="custom-bg">
 
-        <!-- Content -->
-        <div class="w-full md:w-1/2 flex items-center justify-center bg-gray-800 p-10 rounded-md">
-            {{ $slot }}
-        </div>
+    <!-- Overlay gelap agar form lebih terbaca -->
+    <div class="overlay"></div>
+
+    <!-- Form login/register muncul di tengah -->
+    <div class="content-box">
+        @if(session('login_failed'))
+            <div class="login-failed">
+                {{ session('login_failed') }}
+            </div>
+        @endif
+
+        {{ $slot }}
     </div>
+
 </body>
 </html>
