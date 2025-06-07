@@ -1,53 +1,81 @@
-{{-- @extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 
-@section('content') --}}
-<x-navbar>
-</x-navbar>
-<!-- <section class="about-hero" style="background: url('{{ asset('assets/images/about-hero.jpg') }}') center/cover no-repeat; padding: 120px 20px; color: white; text-align: center;"> -->
-    <div class="container">
-        <h1>About Yapping Sport Center</h1>
-        <p style="font-size: 1.3rem; margin-top: 10px;">Your trusted place for sports field rentals and activities</p>
-    </div>
-</section>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yapping Mini Soccer | About Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
 
-<section class="about-content" style="padding: 60px 20px;">
-    <div class="container" style="max-width: 900px; margin: auto; line-height: 1.7; color: #333;">
-        <h2>Who We Are</h2>
-        <p>
-            Yapping Sport Center was founded in 2015 with a mission to provide high-quality, accessible sports venues 
-            for everyone. Located in the heart of Sleman, we offer a variety of fields including mini soccer, futsal, 
-            badminton, and more.
-        </p>
+<body class="bg-gray-100 text-gray-800">
 
-        <h2>Our Vision</h2>
-        <p>
-            To be the leading sports venue provider in the region, inspiring active lifestyles and community engagement 
-            through excellent facilities and services.
-        </p>
+    <x-navbar />
 
-        <h2>Our Mission</h2>
-        <ul>
-            <li>Maintain top-notch sports facilities for all types of players.</li>
-            <li>Provide easy and reliable booking services.</li>
-            <li>Foster a safe, friendly, and inclusive environment.</li>
-            <li>Support local sports communities and events.</li>
-        </ul>
+    <!-- About Section -->
+    <section class="py-24 bg-white text-gray-800">
+        <div class="container mx-auto max-w-5xl px-6 space-y-16">
 
-        <h2>Why Choose Us?</h2>
-        <p>
-            We combine excellent facilities with a passionate team dedicated to making your sports experience enjoyable 
-            and hassle-free. Whether you're a casual player or part of a competitive league, Yapping Sport Center is your 
-            go-to destination.
-        </p>
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold mb-4">Get to Know Yapping</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    More than just a sports center — Yapping was born out of passion for community, health, and togetherness. 
+                    We're here to create spaces where stories, sweat, and smiles are shared.
+                </p>
+            </div>
 
-        <div style="margin-top: 40px; text-align: center;">
-            <a href="/rent" class="btn-primary" style="padding: 15px 40px; font-size: 1.1rem;">Book a Field Now</a>
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">Our Roots</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        Started in a small neighborhood of Sleman in 2015, Yapping grew from a simple idea: make sports accessible to everyone.
+                        What began as a single futsal court is now a multi-facility venue built by and for the local community.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">What Drives Us</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        We believe sports can break barriers. At Yapping, every match, training, or gathering becomes a moment to 
+                        build connection, character, and confidence. Our drive isn’t just to provide space — it’s to create impact.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">We Champion Local Growth</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        We proudly host youth tournaments, partner with schools, and open doors for aspiring athletes. Every booking helps us
+                        reinvest into the community — improving facilities, funding grassroots events, and supporting local talent.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-bold mb-3">Beyond the Field</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        Yapping isn’t just where you play — it’s where you belong. From weekend players to serious teams, our spaces welcome 
+                        everyone who values respect, fun, and community spirit.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="/rent" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition shadow">
+                    Start Your Game With Us
+                </a>
+            </div>
+
         </div>
-    </div>
-</section>
+    </section>
 
-{{-- @endsection --}}
+    <x-footer />
 
-
-<x-footer>
-</x-footer>
+</body>
+</html>

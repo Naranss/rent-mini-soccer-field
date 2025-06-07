@@ -7,7 +7,6 @@
 </head>
 <body class="min-h-screen bg-cover bg-center flex items-center justify-center relative"
       style="background-image: url({{ asset('assets/background/bg-1.png') }})">
->
 
     <!-- Overlay Gelap -->
     <div class="absolute inset-0 bg-black bg-opacity-70 z-0"></div>
