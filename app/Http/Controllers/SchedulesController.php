@@ -36,7 +36,6 @@ class SchedulesController extends Controller
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
-            'is_available' => 'required|in:available,booked',
         ]);
         Schedule::create($validated);
         return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil ditambahkan!');
