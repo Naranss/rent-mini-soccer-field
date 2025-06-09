@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.landing');
-})->name('index');
+})->name('home');
 
 Route::get('/home', function () {
     return view('pages.home');
-})->name('home');
+});
 
 Route::get('/about', function () {
     return view('pages.about');
@@ -28,7 +28,7 @@ Route::get('/rent/form', function () {
     return view('pages.rentform');
 })->name('rentform');
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->name('login-auth');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
