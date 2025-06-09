@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->enum('type', ['futsal','minisoccer']);
+            $table->enum('type', ['futsal', 'minisoccer']);
             $table->text('description')->nullable();
             $table->integer('price')->default(0);
             $table->enum('status', ['available', 'booked'])->default('available');
