@@ -2,15 +2,38 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
     {
+        // Admin 1
+        User::create([
+            'name' => 'Admin',
+            'username' => 'Admin',
+            'phone_number' => '088775612265',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('admin_p4ss'),
+            'role' => 'ADMIN'
+        ]);
+
+        // Admin 2
+        User::create([
+            'name' => 'Coki Jangan Tidur',
+            'username' => 'Cokids',
+            'phone_number' => '088237572185',
+            'email' => 'Cokids@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'ADMIN'
+        ]);
+
         // Customer 1
         User::create([
             'name' => 'Eugenius',
