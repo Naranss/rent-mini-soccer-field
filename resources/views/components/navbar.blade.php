@@ -29,7 +29,6 @@
 
             <!-- Desktop Nav -->
             <nav id="mainNav" class="hidden md:flex space-x-6 items-center">
-                <a href="/home" class="hover:text-indigo-400 transition">Home</a>
                 <a href="/about" class="hover:text-indigo-400 transition">About Us</a>
                 <a href="/rent" class="hover:text-indigo-400 transition">Rent Field</a>
                 <a href="/location" class="hover:text-indigo-400 transition">Location</a>
@@ -44,13 +43,27 @@
                         Login
                     </a>
                 @else
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit"
-                                class="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition text-sm">
-                            Logout
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 focus:outline-none">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
                         </button>
-                    </form>
+
+                        <div class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg hidden group-hover:block z-50">
+                            <a href="{{ route('dashboard') }}"
+                               class="block px-4 py-2 hover:bg-gray-100 transition">Dashboard</a>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                        class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 @endguest
             </nav>
         </div>
@@ -58,7 +71,6 @@
         <!-- Mobile Nav -->
         <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
             <div class="flex flex-col space-y-3">
-                <a href="/home" class="hover:text-indigo-400">Home</a>
                 <a href="/about" class="hover:text-indigo-400">About Us</a>
                 <a href="/rent" class="hover:text-indigo-400">Rent Field</a>
                 <a href="/location" class="hover:text-indigo-400">Location</a>
@@ -73,6 +85,10 @@
                         Login
                     </a>
                 @else
+                    <a href="{{ route('dashboard') }}"
+                       class="px-4 py-2 text-center hover:text-indigo-400 text-sm">
+                        Dashboard
+                    </a>
                     <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit"

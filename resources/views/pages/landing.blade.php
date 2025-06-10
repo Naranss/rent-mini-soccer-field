@@ -86,21 +86,40 @@
         </div>
     </section>
 
-    <!-- Location Section -->
-    <section class="bg-gray-100 py-20">
-    <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl font-extrabold text-gray-800 mb-12">Find Us</h2>
-        <div class="mx-auto rounded-xl overflow-hidden shadow-lg max-w-6xl">
-            <iframe
-                src="https://www.google.com/maps?q=Yapping%20Sport%20Center&output=embed"
-                class="w-full h-60 border-0"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+    <!-- Mini Soccer Events -->
+    <section class="bg-gray-100 py-20 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Past Mini Soccer Events</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach ([
+                [
+                'img' => 'event2.jpg',
+                'title' => 'Central Group Mini Soccer Tournament',
+                'desc' => 'A regional tournament hosted by Central Group, featuring youth and amateur clubs from Yogyakarta.'
+                ],
+                [
+                'img' => 'event1.jpg',
+                'title' => 'Indomanutd Cup',
+                'desc' => 'An annual cup held by Indomanutd community, gathering fans and futsal enthusiasts from across Jogja.'
+                ],
+                [
+                'img' => 'event3.jpg',
+                'title' => 'Buka Mini Soccer Media Cup 2022',
+                'desc' => 'A Ramadan special tournament organized by local media for journalists and creatives in Sleman.'
+                ]
+                ] as $event)
+                <div class="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden transition">
+                    <img src="{{ asset('assets/events/' . $event['img']) }}" alt="{{ $event['title'] }}" class="w-full h-40 object-cover" />
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">{{ $event['title'] }}</h3>
+                        <p class="text-gray-600 text-sm">{{ $event['desc'] }}</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
     <x-footer />
