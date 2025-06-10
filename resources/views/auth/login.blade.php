@@ -11,7 +11,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <form method="POST" action="/login" class="w-full max-w-sm">
+    <form method="POST" action="{{ route('login-auth') }}" class="w-full max-w-sm">
         @csrf
         <h2 class="text-white text-3xl font-bold mb-6">Login</h2>
 
@@ -25,7 +25,7 @@
 
         <div class="text-white mt-4 text-sm text-center">
             <a href="#" class="hover:underline">Forgot Password ?</a><br>
-            Don’t have an account? <a href="/register" class="font-bold hover:underline">Register Now.</a>
+            Don’t have an account? <a href="{{ route('register') }}" class="font-bold hover:underline">Register Now.</a>
         </div>
     </form>
 </x-layout>
