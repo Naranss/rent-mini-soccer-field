@@ -8,9 +8,9 @@ Route::get('/', function () {
     return view('pages.landing');
 })->name('home');
 
-Route::get('/home', function () {
-    return view('pages.home');
-});
+Route::get('/dashboard', function () {
+    return view('pages.dashboard');
+})->name('dashboard');
 
 Route::get('/about', function () {
     return view('pages.about');
