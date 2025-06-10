@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FieldSeeder::class,
             ScheduleSeeder::class,
+            FieldImageSeeder::class,
         ]);
     }
 }
