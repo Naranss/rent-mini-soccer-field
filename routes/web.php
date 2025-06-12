@@ -24,6 +24,10 @@ Route::get('/rent', function () {
     return view('pages.rent');
 })->name('rent');
 
+Route::get('/rent/book', function () {
+    return view('pages.rentfieldbook');
+})->name('rentfieldbook');
+
 Route::get('/rent/form', function () {
     return view('pages.rentform');
 })->name('rentform');
