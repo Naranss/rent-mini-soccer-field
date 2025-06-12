@@ -41,9 +41,8 @@
             <div class="mt-6 text-left bg-gray-100 p-6 rounded-lg shadow-md inline-block">
                 <h3 class="text-lg font-semibold mb-2 text-indigo-600">Opening Hours</h3>
                 <ul class="text-gray-700 space-y-1">
-                    <li>Monday - Friday: 08:00 AM – 10:00 PM</li>
-                    <li>Saturday - Sunday: 07:00 AM – 11:00 PM</li>
-                    <li>Public Holidays: Open as usual</li>
+                    <li>Monday - Friday: 08:00 AM – 09:00 PM</li>
+                    <li>Saturday - Sunday: 08:00 AM – 12:00 PM</li>
                 </ul>
             </div>
 
