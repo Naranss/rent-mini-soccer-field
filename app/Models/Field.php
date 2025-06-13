@@ -21,7 +21,6 @@ class Field extends Model
     ];
     protected $casts = [
         'price' => 'integer',
-        'status' => 'enum',
     ];
     public function owner()
     {
