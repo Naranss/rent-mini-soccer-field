@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Field;
 use App\Models\FieldImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,17 +18,20 @@ class FieldImagesController extends Controller
 
     public function create()
     {
-        return view('pages.imagedashboardform');
+        $fields = Field::all();
+        return view('pages.imagedashboardform', compact('fields'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'field_id' => 'required|exists:fields,id',
             'img_alt' => 'required|string|max:255',
             'type' => 'required|in:futsal,minisoccer',
             'image' => 'required|image|mimes:jpg,png|max:2048',
         ]);
         $validated['path'] = $request->file('image')->store('fields', 'public');
+        $validated['owner_id'] = Auth::id(); 
 
         FieldImage::create($validated);
         return redirect()->route('pages.imagedashboard')->with('success', 'Gambar berhasil ditambahkan!');
