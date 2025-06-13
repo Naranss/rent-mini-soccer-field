@@ -22,7 +22,6 @@ class Booking extends Model
         'date' => 'date',
         'start_time' => 'datetime',
         'end_time' => 'datetime',
-        'status' => 'string',
     ];
 
     // Relasi dengan User (Customer)
