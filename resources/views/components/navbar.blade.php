@@ -21,9 +21,9 @@
             <!-- Mobile Menu Button -->
             <button class="md:hidden text-white focus:outline-none" id="menuToggle">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M4 6h16M4 12h16M4 18h16" />
+                          d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
@@ -43,8 +43,9 @@
                         Login
                     </a>
                 @else
-                    <div class="relative group">
-                        <button class="flex items-center gap-2 focus:outline-none">
+                    <!-- User Icon with Dropdown -->
+                    <div class="relative">
+                        <button id="userMenuToggle" class="flex items-center gap-2 focus:outline-none">
                             <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
                                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -52,7 +53,8 @@
                             </svg>
                         </button>
 
-                        <div class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg hidden group-hover:block z-50">
+                        <div id="userDropdown"
+                             class="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg hidden z-50">
                             <a href="{{ route('dashboard') }}"
                                class="block px-4 py-2 hover:bg-gray-100 transition">Dashboard</a>
                             <form action="{{ route('logout') }}" method="POST">
@@ -103,8 +105,24 @@
 
     <!-- Toggle Script -->
     <script>
+        // Mobile menu toggle
         document.getElementById('menuToggle').addEventListener('click', () => {
             document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // User dropdown toggle
+        const userToggle = document.getElementById('userMenuToggle');
+        const userDropdown = document.getElementById('userDropdown');
+
+        userToggle?.addEventListener('click', () => {
+            userDropdown.classList.toggle('hidden');
+        });
+
+        // Hide dropdown when clicking outside
+        window.addEventListener('click', function (e) {
+            if (!userToggle.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.classList.add('hidden');
+            }
         });
     </script>
 
