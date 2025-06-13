@@ -7,7 +7,7 @@ use App\Models\Field;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BookingController extends Controller
+class BookingsController extends Controller
 {
     // Menampilkan semua booking (untuk admin atau overview)
     public function index()

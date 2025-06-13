@@ -35,6 +35,16 @@ class Field extends Model
         }
     }
 
+    // Filter query by field name and owner name
+    public function scopeFilter(Builder $query, array $filters) {
+        $query->when($filters['search'] ?? false, function($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhereHas('owner', function($query) use ($search) {
+                            $query->where('name', 'like', '%' . $search . '%');
+                        });
+        });
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');

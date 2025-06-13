@@ -12,8 +12,8 @@ class FieldsController extends Controller
      */
     public function index()
     {
-        $fields= Field::all();
-        return view('fields.index', compact('fields'));
+        $fields = Field::with('owner')->filter(request(['search']))->get();
+        return view('pages.fields.index', compact('fields'));
     }
 
     /**
