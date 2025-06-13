@@ -22,20 +22,20 @@
             <ul class="mt-6 space-y-2 px-4 text-sm">
                 @php $role = auth()->user()->role ?? 'guest'; @endphp
 
-                @if(in_array($role, ['owner', 'admin']))
+                {{-- @if(in_array($role, ['owner', 'admin'])) --}}
                     <li>
                         <a href="{{ route('fields.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-list"></i> Field List
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('fields.images') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <a href="{{ route('field-images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-image"></i> Field Images
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
 
-                @if(in_array($role, ['customer', 'owner', 'admin']))
+                {{-- @if(in_array($role, ['customer', 'owner', 'admin'])) --}}
                     <li>
                         <a href="{{ route('bookings.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-table"></i> Booking Table
@@ -46,15 +46,15 @@
                             <i class="fas fa-money-check-dollar"></i> Payment Table
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
 
-                @if($role === 'admin')
+                {{-- @if($role === 'admin') --}}
                     <li>
                         <a href="{{ route('users.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-users"></i> User Table
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
             </ul>
         </div>
 
