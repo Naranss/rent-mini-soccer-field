@@ -13,13 +13,13 @@ class FieldImagesController extends Controller
     public function index()
     {
         $fieldImages = FieldImage::all();
-        return view('pages.imagesdashboard', compact('fieldImages'));
+        return view('pages.field-images.index', compact('fieldImages'));
     }
 
     public function create()
     {
         $fields = Field::all();
-        return view('pages.imagedashboardform', compact('fields'));
+        return view('pages.field-images.create', compact('fields'));
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class FieldImagesController extends Controller
         $validated['owner_id'] = Auth::id(); 
 
         FieldImage::create($validated);
-        return redirect()->route('pages.imagedashboard')->with('success', 'Gambar berhasil ditambahkan!');
+        return redirect()->route('pages.field-images.index')->with('success', 'Gambar berhasil ditambahkan!');
     }
 
     public function edit(FieldImage $fieldImage)

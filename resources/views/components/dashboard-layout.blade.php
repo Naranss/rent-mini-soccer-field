@@ -26,7 +26,7 @@
 
             <!-- Sidebar Menu -->
             <ul class="mt-6 space-y-2 px-4 text-sm">
-                @php $role = auth()->user()->role ?? 'guest'; @endphp
+                {{-- @php $role = auth()->user()->role ?? 'guest'; @endphp --}}
 
                 <!-- Dashboard for all roles -->
                 <li>
@@ -36,21 +36,26 @@
                 </li>
 
                 <!-- Field Management: owner, admin -->
-                @if(in_array($role, ['OWNER', 'ADMIN']))
+                {{-- @if(in_array($role, ['OWNER', 'ADMIN'])) --}}
+
                     <li>
                         <a href="{{ route('fields.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-list"></i> <span class="sidebar-label">Field List</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('fields.images') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+
+                        <a href="{{ route('fields.images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-image"></i> <span class="sidebar-label">Field Images</span>
+
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
+
 
                 <!-- Booking & Payment: customer, owner, admin -->
-                @if(in_array($role, ['CUSTOMER', 'OWNER', 'ADMIN']))
+                {{-- @if(in_array($role, ['CUSTOMER', 'OWNER', 'ADMIN']))  --}}
+
                     <li>
                         <a href="{{ route('bookings.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-table"></i> <span class="sidebar-label">Booking Table</span>
@@ -61,16 +66,17 @@
                             <i class="fas fa-money-check-dollar"></i> <span class="sidebar-label">Payment Table</span>
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
+
 
                 <!-- User Table: admin only -->
-                @if($role === 'ADMIN')
+                {{--@if($role === 'ADMIN') --}}
                     <li>
                         <a href="{{ route('users.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-users"></i> <span class="sidebar-label">User Table</span>
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
             </ul>
         </div>
 

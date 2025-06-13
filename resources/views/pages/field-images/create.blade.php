@@ -1,5 +1,5 @@
         <div>
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('field-images.index') }}" enctype="multipart/form-data">
                 @csrf
                 <select name="field_id">
                     <option value="" disabled {{ old('type') ? '' : 'selected' }}>Field</option>
