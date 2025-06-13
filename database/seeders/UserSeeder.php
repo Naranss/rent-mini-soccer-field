@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
         // Owner 1
         User::create([
             'name' => 'Coki Pardede',
-            'username' => 'cokids',
+            'username' => 'cokidparde',
             'email' => 'coki@gmail.com',
             'phone_number' => '081234567892',
             'password' => Hash::make('password123'),
