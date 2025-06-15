@@ -24,5 +24,7 @@ class MidtransHelper
                 'email' => $booking->customer->email,
             ]
         ];
+
+        return Snap::getSnapToken($params);
     }
 }
