@@ -47,7 +47,8 @@ class FieldsController extends Controller
      */
     public function show(Field $field)
     {
-        return view('pages.fields.show', compact('field'));
+        $fieldImages = $field->fieldImages;
+        return view('pages.fields.show', compact('field', 'fieldImages'));
     }
 
     /**
