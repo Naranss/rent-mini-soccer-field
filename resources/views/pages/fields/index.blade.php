@@ -30,8 +30,8 @@
                     <div class="dropdown">
                         <button onclick="">Dropdown</button>
                         <div id="myDropdown" class="dropdown-content">
-                            <a href="#">Edit</a>
-                            <a href="#">View</a>
+                            <a href="{{ route('fields.edit', [$field]) }}">Edit</a>
+                            <a href="#">Show</a>
                             <a href="#">Delete</a>
                         </div>
                     </div>
