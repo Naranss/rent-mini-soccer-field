@@ -45,7 +45,7 @@
                     </li>
                     <li>
 
-                        <a href="{{ route('fields.images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <a href="{{ route('field-images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                             <i class="fas fa-image"></i> <span class="sidebar-label">Field Images</span>
 
                         </a>

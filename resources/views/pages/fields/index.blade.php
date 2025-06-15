@@ -3,11 +3,12 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<h1>Fields</h1>
-<button>Add Field</button>
+    <h1>Fields</h1>
+    <button>Add Field</button>
     <div>
         <form action="{{ route('fields.index') }}">
-            <input type="text" name="search" placeholder="Search by field name or owner" value="{{ old('search', request('search')) }}">
+            <input type="text" name="search" placeholder="Search by field name or owner"
+                value="{{ old('search', request('search')) }}">
             <button type="submit">Search</button>
         </form>
     </div>
@@ -30,9 +31,13 @@
                     <div class="dropdown">
                         <button onclick="">Dropdown</button>
                         <div id="myDropdown" class="dropdown-content">
-                            <a href="#">Edit</a>
-                            <a href="#">View</a>
-                            <a href="#">Delete</a>
+                            <a href="{{ route('fields.edit', [$field]) }}">Edit</a>
+                            <a href="{{ route('fields.show', [$field]) }}">Show</a>
+                            <form action="{{ route('fields.destroy', $field) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
                         </div>
                     </div>
                 </th>

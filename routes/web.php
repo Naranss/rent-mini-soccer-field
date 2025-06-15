@@ -48,8 +48,12 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     // Field Routes
     Route::get('/fields', [FieldsController::class, 'index'])->name('fields.index');
-    Route::get('/fields/add', [FieldsController::class, 'create'])->name('fields.add');
-    Route::post('/fields/add', [FieldsController::class, 'store']);
+    Route::get('/fields/create', [FieldsController::class, 'create'])->name('fields.create');
+    Route::post('/fields', [FieldsController::class, 'store'])->name('fields.store');
+    Route::get('/fields/{field}', [FieldsController::class, 'show'])->name('fields.show');
+    Route::get('/fields/{field}/edit', [FieldsController::class, 'edit'])->name('fields.edit');
+    Route::put('/fields/{field}', [FieldsController::class, 'update'])->name('fields.update');
+    Route::delete('/fields/{field}', [FieldsController::class, 'destroy'])->name('fields.destroy');
 
     // Field Image Routes
     Route::get('/field-images', [FieldImagesController::class, 'index'])->name('field-images.index');
