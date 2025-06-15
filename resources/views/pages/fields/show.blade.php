@@ -3,32 +3,72 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <h1>View {{ $field->name }}</h1>
-    <div>
-        <h2>Field Details</h3>
-            <a href="{{ route('fields.edit', $field) }}">Edit</a>
-            <a href="{{ route('fields.index') }}">Back</a>
-            <div>
-                Owner: {{ $field->owner->name }}
-                Added at: {{ $field->created_at }}
-                Status: {{ $field->status }}
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-semibold text-gray-800">View Field: {{ $field->name }}</h1>
+            <div class="space-x-2">
+                <a href="{{ route('fields.edit', $field) }}" class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md">
+                    Edit
+                </a>
+                <a href="{{ route('fields.index') }}" class="px-4 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md">
+                    Back
+                </a>
             </div>
-            <h3>Description</h3>
-            <p>{{ $field->description }}</p>
-            <h3>Price/hour</h3>
-            Rp {{ number_format($field->price, 2, ',', '.') }}
-            <h3>Type</h3>
-            {{ $field->type }}
-            <h3>Location</h3>
-            {{ $field->location }}
-            <h3>Images</h3>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-sm text-gray-500">Owner</p>
+                <p class="text-lg font-medium text-gray-900">{{ $field->owner->name }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Added At</p>
+                <p class="text-lg text-gray-900">{{ $field->created_at->format('d M Y, H:i') }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Status</p>
+                <span class="inline-block px-3 py-1 text-sm rounded-full 
+                    {{ $field->status === 'available' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                    {{ ucfirst($field->status) }}
+                </span>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Type</p>
+                <p class="text-lg text-gray-900">{{ ucfirst($field->type) }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Price / hour</p>
+                <p class="text-lg text-gray-900">Rp {{ number_format($field->price, 2, ',', '.') }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Location</p>
+                <p class="text-lg text-gray-900">{{ $field->location }}</p>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Description</h3>
+            <p class="text-gray-700">{{ $field->description }}</p>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Images</h3>
             @if ($fieldImages->isNotEmpty())
-            {{-- Use carousel --}}
-                @foreach ($fieldImages as $fieldImage)
-                   <img src="{{ asset('storage/' . $fieldImage->path) }}" alt="{{ $fieldImage->img_alt }}"> 
-                @endforeach
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    @foreach ($fieldImages as $fieldImage)
+                        <img src="{{ asset('storage/' . $fieldImage->path) }}" 
+                             alt="{{ $fieldImage->img_alt }}" 
+                             class="rounded-lg w-full h-40 object-cover border border-gray-200 shadow-sm" />
+                    @endforeach
+                </div>
             @else
-                <p>This field doesn't have any images yet.</p>
+                <p class="text-gray-600 italic">This field doesn't have any images yet.</p>
             @endif
+        </div>
     </div>
 @endsection
