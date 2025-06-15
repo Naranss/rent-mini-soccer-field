@@ -21,7 +21,7 @@ class FieldsController extends Controller
      */
     public function create()
     {
-        return view('fields.create');
+        return view('pages.fields.create');
     }
 
     /**
@@ -47,7 +47,7 @@ class FieldsController extends Controller
      */
     public function show(Field $field)
     {
-        return view('fields.show', compact('field'));
+        return view('pages.fields.show', compact('field'));
     }
 
     /**
@@ -55,7 +55,7 @@ class FieldsController extends Controller
      */
     public function edit(Field $field)
     {
-        return view('fields.edit', compact('field'));
+        return view('pages.fields.edit', compact('field'));
     }
 
     /**
@@ -68,9 +68,10 @@ class FieldsController extends Controller
             'type' => 'required|in:futsal,minisoccer',
             'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
-            'status' => 'required|in:available,booked',
+            'status' => 'required|in:available,maintenance',
             'location' => 'nullable|string|max:255',
         ]);
+
         $field->update($validated);
         return redirect()->route('fields.index')->with('success', 'Field berhasil diupdate!');
     }
