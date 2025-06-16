@@ -59,6 +59,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/field-images', [FieldImagesController::class, 'index'])->name('field-images.index');
     Route::get('/field-images/create', [FieldImagesController::class, 'create'])->name('field-images.create');
     Route::post('/field-images', [FieldImagesController::class, 'store'])->name('field-images.store');
+    Route::get('/field-images/{fieldImage}', [FieldImagesController::class, 'show'])->name('field-images.show');
+    Route::get('/field-images/{fieldImage}/edit', [FieldImagesController::class, 'edit'])->name('field-images.edit');
+    Route::put('/field-images/{fieldImage}', [FieldImagesController::class, 'update'])->name('field-images.update');
+    Route::delete('/field-images/{fieldImage}', [FieldImagesController::class, 'destroy'])->name('field-images.destroy');
 
     // Booking Routes
     Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');

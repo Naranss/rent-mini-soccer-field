@@ -35,11 +35,11 @@ class FieldsController extends Controller
             'owner_id' => 'required|exists:users,id',
             'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
-            'status' => 'required|in:available,booked',
+            'status' => 'required|in:available,maintenance',
             'location' => 'nullable|string|max:255',
         ]);
         Field::create($validated);
-        return redirect()->route('fields.index')->with('success', 'Field berhasil ditambahkan!');
+        return redirect()->route('fields.create')->with('success', 'Field berhasil ditambahkan!');
     }
 
     /**
@@ -74,7 +74,7 @@ class FieldsController extends Controller
         ]);
 
         $field->update($validated);
-        return redirect()->route('fields.index')->with('success', 'Field berhasil diupdate!');
+        return redirect()->route('fields.edit', $field)->with('success', 'Field berhasil diupdate!');
     }
 
     /**
