@@ -63,7 +63,7 @@
                                 class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition">
                                 ⋮
                             </button>
-                            <div x-show="open" @click.outside="open = false"
+                            <div x-show="open" @click.outside="open = false" x-cloak
                                 class="absolute right-0 mt-2 w-44 bg-white rounded shadow z-10 divide-y">
 
                                 <!-- Edit -->
@@ -115,6 +115,5 @@
     </div>
 </section>
 
-<!-- Alpine.js for dropdowns -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 @endsection

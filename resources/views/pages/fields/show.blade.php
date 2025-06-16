@@ -3,20 +3,24 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <div class="flex items-center justify-between mb-6">
+    <div class="max-w-6xl mx-auto bg-white p-6 md:p-8 rounded-lg shadow-md font-[Poppins]">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
             <h1 class="text-2xl font-semibold text-gray-800">View Field: {{ $field->name }}</h1>
-            <div class="space-x-2">
-                <a href="{{ route('fields.edit', $field) }}" class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md">
+            <div class="flex gap-2">
+                <a href="{{ route('fields.edit', $field) }}"
+                   class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition">
                     Edit
                 </a>
-                <a href="{{ route('fields.index') }}" class="px-4 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md">
+                <a href="{{ route('fields.index') }}"
+                   class="px-4 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition">
                     Back
                 </a>
             </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
+        <!-- Info Grid -->
+        <div class="grid md:grid-cols-3 gap-4">
             <div>
                 <p class="text-sm text-gray-500">Owner</p>
                 <p class="text-lg font-medium text-gray-900">{{ $field->owner->name }}</p>
@@ -51,15 +55,17 @@
             </div>
         </div>
 
-        <div class="mt-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Description</h3>
-            <p class="text-gray-700">{{ $field->description }}</p>
+        <!-- Description -->
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-1">Description</h3>
+            <p class="text-gray-700 leading-relaxed">{{ $field->description }}</p>
         </div>
 
-        <div class="mt-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Images</h3>
+        <!-- Images -->
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Images</h3>
             @if ($fieldImages->isNotEmpty())
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
                     @foreach ($fieldImages as $fieldImage)
                         <img src="{{ asset('storage/' . $fieldImage->path) }}" 
                              alt="{{ $fieldImage->img_alt }}" 
