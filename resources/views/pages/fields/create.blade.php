@@ -6,7 +6,7 @@
 <section class="p-6 font-[Poppins]">
     <!-- Header Section -->
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Edit Field</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Add New Field</h1>
         <a href="{{ route('fields.index') }}"
            class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-medium px-4 py-2 rounded-md transition">
             ← Back to Field List
@@ -20,19 +20,21 @@
         </div>
     @endif
 
-    <!-- Edit Field Form -->
-    <form action="{{ route('fields.update', $field) }}" method="POST"
+    <!-- Create Field Form -->
+    <form action="{{ route('fields.store') }}" method="POST"
           class="bg-white rounded-lg shadow-md p-6 w-full max-w-4xl mx-auto">
         @csrf
-        @method('PUT')
 
         <!-- Grid layout for form -->
         <div class="grid md:grid-cols-2 gap-5">
             <!-- Field Name -->
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Field Name</label>
-                <input type="text" id="name" name="name" required value="{{ $field->name }}"
+                <input type="text" id="name" name="name" required value="{{ old('name') }}"
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                @error('name')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Type -->
@@ -40,23 +42,33 @@
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
                 <select name="type" id="type" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="futsal" {{ $field->type == 'futsal' ? 'selected' : '' }}>Futsal</option>
-                    <option value="minisoccer" {{ $field->type == 'minisoccer' ? 'selected' : '' }}>Mini Soccer</option>
+                    <option value="" disabled {{ old('type') ? '' : 'selected' }}>Select Type</option>
+                    <option value="futsal" {{ old('type') == 'futsal' ? 'selected' : '' }}>Futsal</option>
+                    <option value="minisoccer" {{ old('type') == 'minisoccer' ? 'selected' : '' }}>Mini Soccer</option>
                 </select>
+                @error('type')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
-
+            <input type="hidden" name="owner_id" value="{{ auth()->user()->id }}">
             <!-- Description (full width) -->
             <div class="md:col-span-2">
                 <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <input type="text" id="description" name="description" required value="{{ $field->description }}"
+                <input type="text" id="description" name="description" required value="{{ old('description') }}"
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                @error('description')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Price -->
             <div>
                 <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-                <input type="number" id="price" name="price" required value="{{ $field->price }}"
+                <input type="number" id="price" name="price" required value="{{ old('price') }}"
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                @error('price')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Status -->
@@ -64,16 +76,23 @@
                 <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select name="status" id="status" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="available" {{ $field->status == 'available' ? 'selected' : '' }}>Available</option>
-                    <option value="maintenance" {{ $field->status == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                    <option value="" disabled {{ old('status') ? '' : 'selected' }}>Select Status</option>
+                    <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Available</option>
+                    <option value="maintenance" {{ old('status') == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
                 </select>
+                @error('status')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Location (full width) -->
             <div class="md:col-span-2">
                 <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                <input type="text" id="location" name="location" required value="{{ $field->location }}"
+                <input type="text" id="location" name="location" required value="{{ old('location') }}"
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                @error('location')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -81,7 +100,7 @@
         <div class="text-right mt-6">
             <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition font-medium">
-                Update
+                Create Field
             </button>
         </div>
     </form>

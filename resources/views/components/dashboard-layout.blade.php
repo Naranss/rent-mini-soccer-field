@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,9 +9,25 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        [x-cloak] { 
+            display: none !important; 
+        }
+    </style>
+
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer></script>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 </head>
+
 <body class="bg-gray-100 text-gray-800 min-h-screen flex">
 
     <!-- Sidebar -->
@@ -28,54 +45,44 @@
             <ul class="mt-6 space-y-2 px-4 text-sm">
                 {{-- @php $role = auth()->user()->role ?? 'guest'; @endphp --}}
 
-                <!-- Dashboard for all roles -->
                 <li>
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-home"></i> <span class="sidebar-label">Dashboard</span>
                     </a>
                 </li>
 
-                <!-- Field Management: owner, admin -->
                 {{-- @if(in_array($role, ['OWNER', 'ADMIN'])) --}}
-
-                    <li>
-                        <a href="{{ route('fields.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-list"></i> <span class="sidebar-label">Field List</span>
-                        </a>
-                    </li>
-                    <li>
-
-                        <a href="{{ route('field-images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-image"></i> <span class="sidebar-label">Field Images</span>
-
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('fields.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-list"></i> <span class="sidebar-label">Field List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('field-images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-image"></i> <span class="sidebar-label">Field Images</span>
+                    </a>
+                </li>
                 {{-- @endif --}}
 
-
-                <!-- Booking & Payment: customer, owner, admin -->
                 {{-- @if(in_array($role, ['CUSTOMER', 'OWNER', 'ADMIN']))  --}}
-
-                    <li>
-                        <a href="{{ route('bookings.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-table"></i> <span class="sidebar-label">Booking Table</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('payments.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-money-check-dollar"></i> <span class="sidebar-label">Payment Table</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('bookings.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-table"></i> <span class="sidebar-label">Booking Table</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('payments.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-money-check-dollar"></i> <span class="sidebar-label">Payment Table</span>
+                    </a>
+                </li>
                 {{-- @endif --}}
 
-
-                <!-- User Table: admin only -->
                 {{--@if($role === 'ADMIN') --}}
-                    <li>
-                        <a href="{{ route('users.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
-                            <i class="fas fa-users"></i> <span class="sidebar-label">User Table</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('users.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-users"></i> <span class="sidebar-label">User Table</span>
+                    </a>
+                </li>
                 {{-- @endif --}}
             </ul>
         </div>
@@ -126,6 +133,8 @@
             }
         });
     </script>
-
+    <!-- Alpine.js for dropdowns -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
+
 </html>
