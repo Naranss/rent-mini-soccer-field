@@ -16,9 +16,6 @@ class Schedule extends Model
         'hari',
     ];
 
-    protected $casts = [
-        'hari'=> 'enum',
-    ];
     public function field()
     {
         return $this->belongsTo(Field::class);

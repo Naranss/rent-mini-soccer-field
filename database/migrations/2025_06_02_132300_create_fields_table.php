@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('type', ['futsal', 'minisoccer']);
             $table->text('description')->nullable();
             $table->integer('price')->default(0);
-            $table->enum('status', ['available', 'booked'])->default('available');
+            $table->enum('status', ['available', 'maintenance'])->default('available');
             $table->string('location')->nullable();
             $table->timestamps();
             $table->softDeletes();

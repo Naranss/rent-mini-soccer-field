@@ -1,31 +1,32 @@
 <x-layout :title="'Login'">
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="mb-4 p-3 rounded bg-green-500 text-white text-sm text-center">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
     @if (session()->has('loginError'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="mb-4 p-3 rounded bg-red-600 text-white text-sm text-center">
             {{ session('loginError') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <form method="POST" action="{{ route('login-auth') }}" class="w-full max-w-sm">
+
+    <form method="POST" action="{{ route('login-auth') }}" class="w-full">
         @csrf
-        <h2 class="text-white text-3xl font-bold mb-6">Login</h2>
+        <h2 class="text-white text-3xl font-bold mb-6 text-center">Login</h2>
 
         <input name="username" type="text" placeholder="Username"
-            class="w-full mb-4 p-3 rounded bg-gray-700 text-white focus:outline-none">
+            class="w-full mb-4 p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
         <input name="password" type="password" placeholder="Password"
-            class="w-full mb-4 p-3 rounded bg-gray-700 text-white focus:outline-none">
+            class="w-full mb-4 p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
 
         <button type="submit"
-            class="w-full bg-red-500 text-white font-bold py-2 rounded hover:bg-red-600">Login</button>
+            class="w-full bg-red-500 text-white font-bold py-2 rounded hover:bg-red-600 transition duration-300">Login</button>
 
-        <div class="text-white mt-4 text-sm text-center">
-            <a href="#" class="hover:underline">Forgot Password ?</a><br>
-            Don’t have an account? <a href="{{ route('register') }}" class="font-bold hover:underline">Register Now.</a>
+        <div class="text-white mt-4 text-sm text-center space-y-1">
+            <a href="#" class="hover:underline">Forgot Password?</a><br>
+            Don’t have an account? 
+            <a href="{{ route('register') }}" class="font-bold hover:underline text-red-400">Register Now.</a>
         </div>
     </form>
 </x-layout>

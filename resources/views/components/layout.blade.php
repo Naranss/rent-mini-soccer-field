@@ -11,7 +11,7 @@
     <!-- Overlay gelap agar form lebih terbaca -->
     <div class="absolute inset-0 bg-black bg-opacity-70 z-0"></div>
 
-    <!-- Form login/register muncul di tengah -->
+    <!-- Slot konten akan dirender di sini -->
     <div class="relative z-10 bg-gray-800 bg-opacity-90 p-10 rounded-md shadow-lg w-full max-w-md">
         {{ $slot }}
     </div>
