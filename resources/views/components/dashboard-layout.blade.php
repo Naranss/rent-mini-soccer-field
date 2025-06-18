@@ -15,8 +15,9 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
-        [x-cloak] { 
-            display: none !important; 
+
+        [x-cloak] {
+            display: none !important;
         }
     </style>
 
@@ -25,13 +26,13 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
 </head>
 
 <body class="bg-gray-100 text-gray-800 min-h-screen flex">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 bg-gray-800 text-white min-h-screen flex flex-col justify-between transition-all duration-300">
+    <aside id="sidebar"
+        class="fixed left-0 top-0 h-screen w-64 bg-gray-800 text-white flex flex-col justify-between transition-all duration-300 z-50">
         <div>
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between p-6 border-b border-gray-700">
@@ -43,47 +44,42 @@
 
             <!-- Sidebar Menu -->
             <ul class="mt-6 space-y-2 px-4 text-sm">
-                {{-- @php $role = auth()->user()->role ?? 'guest'; @endphp --}}
-
                 <li>
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-home"></i> <span class="sidebar-label">Dashboard</span>
                     </a>
                 </li>
-
-                {{-- @if(in_array($role, ['OWNER', 'ADMIN'])) --}}
                 <li>
-                    <a href="{{ route('fields.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                    <a href="{{ route('fields.index') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-list"></i> <span class="sidebar-label">Field List</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('field-images.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                    <a href="{{ route('field-images.index') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-image"></i> <span class="sidebar-label">Field Images</span>
                     </a>
                 </li>
-                {{-- @endif --}}
-
-                {{-- @if(in_array($role, ['CUSTOMER', 'OWNER', 'ADMIN']))  --}}
                 <li>
-                    <a href="{{ route('bookings.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                    <a href="{{ route('bookings.index') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-table"></i> <span class="sidebar-label">Booking Table</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('payments.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                    <a href="{{ route('payments.index') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-money-check-dollar"></i> <span class="sidebar-label">Payment Table</span>
                     </a>
                 </li>
-                {{-- @endif --}}
-
-                {{--@if($role === 'ADMIN') --}}
                 <li>
-                    <a href="{{ route('users.index') }}" class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                    <a href="{{ route('users.index') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-users"></i> <span class="sidebar-label">User Table</span>
                     </a>
                 </li>
-                {{-- @endif --}}
             </ul>
         </div>
 
@@ -91,18 +87,20 @@
         <div class="p-4 border-t border-gray-700 space-y-2">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-gray-700">
+                <button type="submit"
+                    class="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-gray-700">
                     <i class="fas fa-sign-out-alt"></i> <span class="sidebar-label">Logout</span>
                 </button>
             </form>
-            <a href="{{ url('/') }}" class="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-gray-700">
+            <a href="{{ url('/') }}"
+                class="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-gray-700">
                 <i class="fas fa-arrow-left"></i> <span class="sidebar-label">Back to Landing Page</span>
             </a>
         </div>
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div id="mainContent" class="flex-1 ml-64 flex flex-col min-h-screen">
         <main class="p-6 flex-1 overflow-y-auto">
             @yield('content')
         </main>
@@ -114,6 +112,7 @@
         const toggleBtn = document.getElementById('toggleSidebar');
         const labels = document.querySelectorAll('.sidebar-label');
         const title = document.getElementById('sidebarTitle');
+        const mainContent = document.getElementById('mainContent');
 
         let collapsed = false;
 
@@ -125,16 +124,20 @@
                 sidebar.classList.add('w-20');
                 labels.forEach(label => label.classList.add('hidden'));
                 title.classList.add('hidden');
+
+                mainContent.classList.remove('ml-64');
+                mainContent.classList.add('ml-20');
             } else {
                 sidebar.classList.remove('w-20');
                 sidebar.classList.add('w-64');
                 labels.forEach(label => label.classList.remove('hidden'));
                 title.classList.remove('hidden');
+
+                mainContent.classList.remove('ml-20');
+                mainContent.classList.add('ml-64');
             }
         });
     </script>
-    <!-- Alpine.js for dropdowns -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 
 </html>
