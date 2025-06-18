@@ -14,7 +14,6 @@ class CreateBookingsTable extends Migration
             $table->foreignId('field_id')->constrained('fields')->onDelete('cascade');
             $table->date('date');
             $table->time('start_time');
-            $table->time('end_time');
             $table->enum('status', ['pending', 'confirmed', 'canceled'])->default('pending');
             $table->timestamps();
         });

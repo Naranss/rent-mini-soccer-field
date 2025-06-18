@@ -6,6 +6,7 @@ use App\Http\Controllers\FieldsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RentController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,17 +23,12 @@ Route::get('/location', function () {
     return view('pages.location');
 })->name('location');
 
-Route::get('/rent', function () {
-    return view('pages.rent');
-})->name('rent');
-
-Route::get('/rent/book', function () {
-    return view('pages.rentfieldbook');
-})->name('rentfieldbook');
-
-Route::get('/rent/form', function () {
-    return view('pages.rentform');
-})->name('rentform');
+// Rent routes
+Route::get('/rent', [RentController::class, 'index'])->name('rent');
+Route::middleware('auth')->group(function () {
+    Route::get('/rent/{field}', [RentController::class, 'show'])->name('rent.field');
+    Route::post('/rent/{field}', [RentController::class, 'storeBooking'])->name('rent.book');
+});
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->name('login-auth');

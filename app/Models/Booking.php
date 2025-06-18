@@ -14,14 +14,12 @@ class Booking extends Model
         'field_id',
         'date',
         'start_time',
-        'end_time',
         'status',
     ];
 
     protected $casts = [
         'date' => 'date',
         'start_time' => 'datetime',
-        'end_time' => 'datetime',
     ];
 
     // Relasi dengan User (Customer)

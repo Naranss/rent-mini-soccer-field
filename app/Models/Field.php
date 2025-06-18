@@ -54,4 +54,8 @@ class Field extends Model
     public function fieldImages() {
         return $this->hasMany(FieldImage::class);
     }
+
+    public function schedules() {
+        return $this->hasMany(Schedule::class);
+    }
 }
