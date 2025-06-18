@@ -6,10 +6,10 @@
     <section class="p-6">
         <!-- Heading and Add Button -->
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Fields</h1>
-            <a href="{{ route('fields.create') }}"
+            <h1 class="text-2xl font-bold text-gray-800">Field Images</h1>
+            <a href="{{ route('field-images.create') }}"
                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                + Add Field
+                + Add Image
             </a>
         </div>
 
@@ -22,7 +22,7 @@
 
 
         <!-- Search Bar -->
-        <form action="{{ route('fields.index') }}" method="GET" class="mb-6">
+        <form action="{{ route('field-images.index') }}" method="GET" class="mb-6">
             <div class="flex items-center space-x-2">
                 <input type="text" name="search" placeholder="Search by field name or owner"
                     value="{{ old('search', request('search')) }}"
@@ -38,31 +38,23 @@
             <table class="min-w-full text-sm text-left">
                 <thead class="bg-gray-100 text-gray-700 uppercase">
                     <tr>
-                        <th class="px-6 py-3">Name</th>
+                        <th class="px-6 py-3">Image</th>
+                        <th class="px-6 py-3">Field</th>
                         <th class="px-6 py-3">Owner</th>
-                        <th class="px-6 py-3">Type</th>
-                        <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Added at</th>
                         <th class="px-6 py-3">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    @foreach ($fields as $field)
+                    @foreach ($fieldImages as $fieldImage)
                         <tr>
-                            <td class="px-6 py-4">{{ $field->name }}</td>
-                            <td class="px-6 py-4">{{ $field->owner->name }}</td>
-                            <td class="px-6 py-4">{{ ucfirst($field->type) }}</td>
                             <td class="px-6 py-4">
-                                @php
-                                    $statusColor = match ($field->status) {
-                                        'available' => 'bg-green-100 text-green-700',
-                                        'maintenance' => 'bg-yellow-100 text-yellow-700',
-                                        default => 'bg-gray-100 text-gray-700',
-                                    };
-                                @endphp
-                                <span class="inline-block px-3 py-1 rounded-full {{ $statusColor }}">
-                                    {{ ucfirst($field->status) }}
-                                </span>
+                                <img src="{{ asset('storage/' . $fieldImage->path) }}" alt="{{ $fieldImage->img_alt }}"
+                                    class="rounded-lg w-full h-40 object-cover border border-gray-200 shadow-sm" />
                             </td>
+                            <td class="px-6 py-4">{{ $fieldImage->field->name }}</td>
+                            <td class="px-6 py-4">{{ $fieldImage->owner->name }}</td>
+                            <td class="px-6 py-4">{{ $fieldImage->created_at->format('d M Y, H:i') }}</td>
                             <td class="px-6 py-4">
                                 <!-- Dropdown -->
                                 <div x-data="{ open: false }" class="static">
@@ -74,7 +66,7 @@
                                         class="absolute right-0 mt-2 w-44 bg-white rounded shadow z-10 divide-y">
 
                                         <!-- Edit -->
-                                        <a href="{{ route('fields.edit', $field) }}"
+                                        <a href="{{ route('field-images.edit', $fieldImage) }}"
                                             class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,7 +77,7 @@
                                         </a>
 
                                         <!-- Show -->
-                                        <a href="{{ route('fields.show', $field) }}"
+                                        <a href="{{ route('field-images.show', $fieldImage) }}"
                                             class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +90,7 @@
                                         </a>
 
                                         <!-- Delete -->
-                                        <form action="{{ route('fields.destroy', $field) }}" method="POST"
+                                        <form action="{{ route('field-images.destroy', $fieldImage) }}" method="POST"
                                             onsubmit="return confirm('Are you sure?')">
                                             @csrf
                                             @method('DELETE')

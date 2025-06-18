@@ -18,7 +18,7 @@ class FieldImagesController extends Controller
 
     public function create()
     {
-        $fields = Field::all();
+        $fields = Field::get();
         return view('pages.field-images.create', compact('fields'));
     }
 
@@ -27,45 +27,49 @@ class FieldImagesController extends Controller
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
             'img_alt' => 'required|string|max:255',
-            'type' => 'required|in:futsal,minisoccer',
             'image' => 'required|image|mimes:jpg,png|max:2048',
         ]);
         $validated['path'] = $request->file('image')->store('fields', 'public');
-        $validated['owner_id'] = Auth::id(); 
+        $validated['owner_id'] = Auth::id();
 
         FieldImage::create($validated);
-        return redirect()->route('pages.field-images.index')->with('success', 'Gambar berhasil ditambahkan!');
+        return redirect()->route('field-images.create')->with('success', 'Gambar berhasil ditambahkan!');
     }
 
+    public function show(FieldImage $fieldImage)
+    {
+        return view('pages.field-images.show', compact('fieldImage'));
+    }
     public function edit(FieldImage $fieldImage)
     {
-        return view('fields.edit', compact('fieldImage'));
+        $fields = Field::get();
+        return view('pages.field-images.edit', compact('fieldImage', 'fields'));
     }
 
 
     public function update(Request $request, FieldImage $fieldImage)
     {
         $validated = $request->validate([
+            'field_id' => 'required|exists:fields,id',
             'img_alt' => 'required|string|max:255',
-            'type' => 'required|in:futsal,minisoccer',
             'image' => 'nullable|image|mimes:jpg,png|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
             $oldImage = $fieldImage->path;
             $validated['path'] = $request->file('image')->store('fields', 'public');
-            Storage::delete($oldImage);
+            Storage::disk('public')->delete($oldImage);
         }
 
         $fieldImage->update($validated);
-        return redirect()->route('fields.index')->with('success', 'Field berhasil diupdate!');
+        return redirect()->route('field-images.edit', $fieldImage)->with('success', 'Field berhasil diupdate!');
     }
 
     public function destroy(FieldImage $fieldImage)
     {
-        Storage::delete($fieldImage->path);
+        Storage::disk('public')->delete($fieldImage->path);
         $fieldImage->delete();
 
-        return redirect()->route('dashboard.field.images')->with('success', 'Gambar lapangan berhasil dihapus!');
+        return redirect()->route('field-images.index')->with('success', 'Gambar lapangan berhasil dihapus!');
     }
 }
