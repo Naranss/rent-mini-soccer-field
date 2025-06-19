@@ -66,14 +66,12 @@
                     </a>
                 </li>
                 @endcan
-                @can('payment_booking')
                 <li>
                     <a href="{{ route('bookings.index') }}"
                         class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-table"></i> <span class="sidebar-label">Booking Table</span>
                     </a>
                 </li>
-                @endcan
                 @can('manage_fields')
                 <li>
                     <a href="{{ route('schedules.index') }}"
@@ -82,14 +80,12 @@
                     </a>
                 </li>
                 @endcan
-                @can('payment_booking')
                 <li>
                     <a href="{{ route('payments.index') }}"
                         class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-money-check-dollar"></i> <span class="sidebar-label">Payment Table</span>
                     </a>
                 </li>
-                @endcan
                 @can('isAdmin')
                 <li>
                     <a href="{{ route('users.index') }}"

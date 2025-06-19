@@ -27,15 +27,6 @@ class Payment extends Model
     ];
 
 
-    protected static function booted(): void
-    {
-        if (Auth::check()) {
-            static::addGlobalScope('customer_id', function (Builder $builder) {
-                $builder->where('customer_id', Auth::id());
-            });
-        }
-    }
-
     // Relasi dengan Booking
     public function booking()
     {
