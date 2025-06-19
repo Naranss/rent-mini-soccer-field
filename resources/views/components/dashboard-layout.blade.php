@@ -69,6 +69,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('schedules.index') }}"
+                        class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-calendar-alt"></i> <span class="sidebar-label">Schedule</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('payments.index') }}"
                         class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
                         <i class="fas fa-money-check-dollar"></i> <span class="sidebar-label">Payment Table</span>
