@@ -7,10 +7,12 @@
         <!-- Heading and Add Button -->
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Field Images</h1>
+            @can('isAdmin')
             <a href="{{ route('field-images.create') }}"
                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                 + Add Image
             </a>
+            @endcan
         </div>
 
         <!-- Success Message -->
