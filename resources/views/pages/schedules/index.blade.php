@@ -6,10 +6,10 @@
     <section class="p-6">
         <!-- Heading and Add Button -->
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Field Images</h1>
-            <a href="{{ route('field-images.create') }}"
+            <h1 class="text-2xl font-bold text-gray-800">Schedules</h1>
+            <a href="{{ route('schedules.create') }}"
                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                + Add Image
+                + Add Schedule
             </a>
         </div>
 
@@ -20,14 +20,14 @@
             </div>
         @endif
 
-
         <!-- Search Bar -->
-        <form action="{{ route('field-images.index') }}" method="GET" class="mb-6">
+        <form action="{{ route('schedules.index') }}" method="GET" class="mb-6">
             <div class="flex items-center space-x-2">
-                <input type="text" name="search" placeholder="Search by field name or owner"
+                <input type="text" name="search" placeholder="Search by field or user"
                     value="{{ old('search', request('search')) }}"
                     class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                <button type="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
                     Search
                 </button>
             </div>
@@ -38,23 +38,27 @@
             <table class="min-w-full text-sm text-left">
                 <thead class="bg-gray-100 text-gray-700 uppercase">
                     <tr>
-                        <th class="px-6 py-3">Image</th>
                         <th class="px-6 py-3">Field</th>
-                        <th class="px-6 py-3">Owner</th>
-                        <th class="px-6 py-3">Added at</th>
+                        <th class="px-6 py-3">User</th>
+                        <th class="px-6 py-3">Start Time</th>
+                        <th class="px-6 py-3">End Time</th>
+                        <th class="px-6 py-3">Status</th>
                         <th class="px-6 py-3">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    @foreach ($fieldImages as $fieldImage)
+                    @foreach ($schedules as $schedule)
                         <tr>
+                            <td class="px-6 py-4">{{ $schedule->field->name }}</td>
+                            <td class="px-6 py-4">{{ $schedule->user->name }}</td>
+                            <td class="px-6 py-4">{{ $schedule->start_time->format('d M Y, H:i') }}</td>
+                            <td class="px-6 py-4">{{ $schedule->end_time->format('d M Y, H:i') }}</td>
                             <td class="px-6 py-4">
-                                <img src="{{ asset('storage/' . $fieldImage->path) }}" alt="{{ $fieldImage->img_alt }}"
-                                    class="rounded-lg w-full h-40 object-cover border border-gray-200 shadow-sm" />
+                                <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                    {{ $schedule->status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                    {{ ucfirst($schedule->status) }}
+                                </span>
                             </td>
-                            <td class="px-6 py-4">{{ $fieldImage->field->name }}</td>
-                            <td class="px-6 py-4">{{ $fieldImage->owner->name }}</td>
-                            <td class="px-6 py-4">{{ $fieldImage->created_at->format('d M Y, H:i') }}</td>
                             <td class="px-6 py-4">
                                 <!-- Dropdown -->
                                 <div x-data="{ open: false }" class="static">
@@ -66,7 +70,7 @@
                                         class="absolute right-0 mt-2 w-44 bg-white rounded shadow z-10 divide-y">
 
                                         <!-- Edit -->
-                                        <a href="{{ route('field-images.edit', $fieldImage) }}"
+                                        <a href="{{ route('schedules.edit', $schedule) }}"
                                             class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,7 +81,7 @@
                                         </a>
 
                                         <!-- Show -->
-                                        <a href="{{ route('field-images.show', $fieldImage) }}"
+                                        <a href="{{ route('schedules.show', $schedule) }}"
                                             class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,7 +94,7 @@
                                         </a>
 
                                         <!-- Delete -->
-                                        <form action="{{ route('field-images.destroy', $fieldImage) }}" method="POST"
+                                        <form action="{{ route('schedules.destroy', $schedule) }}" method="POST"
                                             onsubmit="return confirm('Are you sure?')">
                                             @csrf
                                             @method('DELETE')
@@ -113,6 +117,4 @@
             </table>
         </div>
     </section>
-
-
 @endsection
