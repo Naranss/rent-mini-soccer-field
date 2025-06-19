@@ -8,6 +8,7 @@
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
             <h1 class="text-2xl font-semibold text-gray-800">View User: {{ $user->name }}</h1>
             <a href="{{ route('users.index') }}"
+
                 class="px-4 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition">
                 Back
             </a>
