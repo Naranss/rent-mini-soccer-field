@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 @endcan
-                @can('isOwner')
+                @can('manage_fields')
                 <li>
                     <a href="{{ route('schedules.index') }}"
                         class="flex items-center gap-2 p-2 rounded hover:bg-gray-700">
