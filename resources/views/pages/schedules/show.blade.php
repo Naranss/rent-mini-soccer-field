@@ -6,74 +6,64 @@
     <div class="max-w-6xl mx-auto bg-white p-6 md:p-8 rounded-lg shadow-md font-[Poppins]">
         <!-- Header -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
-            <h1 class="text-2xl font-semibold text-gray-800">View Field: {{ $field->name }}</h1>
+            <h1 class="text-2xl font-semibold text-gray-800">
+                View Schedule for: {{ $schedule->field->name ?? 'Unknown Field' }}
+            </h1>
             <div class="flex gap-2">
-                <a href="{{ route('fields.edit', $field) }}"
+                <a href="{{ route('schedules.edit', $schedule) }}"
                     class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition">
                     Edit
                 </a>
-                <a href="{{ route('fields.index') }}"
+                <a href="{{ route('schedules.index') }}"
                     class="px-4 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition">
                     Back
                 </a>
             </div>
         </div>
+
         <!-- Info Grid -->
         <div class="grid md:grid-cols-3 gap-4">
             <div>
-                <p class="text-sm text-gray-500">Owner</p>
-                <p class="text-lg font-medium text-gray-900">{{ $field->owner->name }}</p>
+                <p class="text-sm text-gray-500">Field</p>
+                <p class="text-lg font-medium text-gray-900">{{ $schedule->field->name ?? '-' }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Added At</p>
-                <p class="text-lg text-gray-900">{{ $field->created_at->format('d M Y, H:i') }}</p>
+                <p class="text-sm text-gray-500">User</p>
+                <p class="text-lg text-gray-900">{{ $schedule->user->name ?? '-' }}</p>
             </div>
 
             <div>
                 <p class="text-sm text-gray-500">Status</p>
                 <span
                     class="inline-block px-3 py-1 text-sm rounded-full 
-                    {{ $field->status === 'available' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                    {{ ucfirst($field->status) }}
+                    {{ $schedule->status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                    {{ ucfirst($schedule->status) }}
                 </span>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Type</p>
-                <p class="text-lg text-gray-900">{{ ucfirst($field->type) }}</p>
+                <p class="text-sm text-gray-500">Start Time</p>
+                <p class="text-lg text-gray-900">{{ \Carbon\Carbon::parse($schedule->start_time)->format('d M Y, H:i') }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Price / hour</p>
-                <p class="text-lg text-gray-900">Rp {{ number_format($field->price, 2, ',', '.') }}</p>
+                <p class="text-sm text-gray-500">End Time</p>
+                <p class="text-lg text-gray-900">{{ \Carbon\Carbon::parse($schedule->end_time)->format('d M Y, H:i') }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Location</p>
-                <p class="text-lg text-gray-900">{{ $field->location }}</p>
+                <p class="text-sm text-gray-500">Created At</p>
+                <p class="text-lg text-gray-900">{{ $schedule->created_at->format('d M Y, H:i') }}</p>
             </div>
         </div>
 
-        <!-- Description -->
-        <div class="mt-8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-1">Description</h3>
-            <p class="text-gray-700 leading-relaxed">{{ $field->description }}</p>
-        </div>
-
-        <!-- Images -->
-        <div class="mt-8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Images</h3>
-            @if ($fieldImages->isNotEmpty())
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    @foreach ($fieldImages as $fieldImage)
-                        <img src="{{ asset('storage/' . $fieldImage->path) }}" alt="{{ $fieldImage->img_alt }}"
-                            class="rounded-lg w-full h-40 object-cover border border-gray-200 shadow-sm" />
-                    @endforeach
-                </div>
-            @else
-                <p class="text-gray-600 italic">This field doesn't have any images yet.</p>
-            @endif
-        </div>
+        <!-- Notes or Description (optional) -->
+        @if (!empty($schedule->notes))
+            <div class="mt-8">
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">Notes</h3>
+                <p class="text-gray-700 leading-relaxed">{{ $schedule->notes }}</p>
+            </div>
+        @endif
     </div>
 @endsection
