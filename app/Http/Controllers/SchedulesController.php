@@ -33,12 +33,55 @@ class SchedulesController extends Controller
     {
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'date' => 'required|date',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
-        Schedule::create($validated);
-        return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil ditambahkan!');
+
+        $startTime = strtotime($validated['start_time']);
+        $endTime = strtotime($validated['end_time']);
+        $currentTime = $startTime;
+
+        $fieldId = $validated['field_id'];
+        $hari = $validated['hari'];
+
+        while ($currentTime < $endTime) {
+            $slotStartTime = date('H:i', $currentTime);
+            $slotEndTime = date('H:i', strtotime('+1 hour', $currentTime));
+
+            // Cek apakah slot waktu sudah ada untuk field dan hari yang sama
+            $existingSchedule = Schedule::where('field_id', $fieldId)
+                ->where('hari', $hari)
+                ->where(function ($query) use ($slotStartTime, $slotEndTime) {
+                    $query->where(function ($q) use ($slotStartTime, $slotEndTime) {
+                        $q->where('start_time', '<=', $slotStartTime)
+                            ->where('end_time', '>', $slotStartTime);
+                    })->orWhere(function ($q) use ($slotStartTime, $slotEndTime) {
+                        $q->where('start_time', '<', $slotEndTime)
+                            ->where('end_time', '>=', $slotEndTime);
+                    })->orWhere(function ($q) use ($slotStartTime, $slotEndTime) {
+                        $q->where('start_time', '>=', $slotStartTime)
+                            ->where('end_time', '<=', $slotEndTime);
+                    });
+                })
+                ->exists();
+
+            if ($existingSchedule) {
+                return redirect()->back()->withErrors(['error' => 'One or more time slots are already booked for the selected field and day.']);
+            }
+
+            // Buat jadwal untuk slot waktu saat ini
+            Schedule::create([
+                'field_id' => $fieldId,
+                'hari' => $hari,
+                'start_time' => $slotStartTime,
+                'end_time' => $slotEndTime,
+            ]);
+
+            $currentTime = strtotime('+1 hour', $currentTime);
+        }
+
+        return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil ditambahkan secara massal!');
     }
 
     /**
