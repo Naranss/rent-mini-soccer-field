@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Payment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'order_id',
         'booking_id',
         'customer_id',
         'rentee_id',
@@ -22,6 +25,16 @@ class Payment extends Model
     protected $casts = [
         'payment_date' => 'datetime',
     ];
+
+
+    protected static function booted(): void
+    {
+        if (Auth::check()) {
+            static::addGlobalScope('customer_id', function (Builder $builder) {
+                $builder->where('customer_id', Auth::id());
+            });
+        }
+    }
 
     // Relasi dengan Booking
     public function booking()

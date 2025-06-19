@@ -33,4 +33,8 @@ class Booking extends Model
     {
         return $this->belongsTo(Field::class, 'field_id');
     }
+
+    public function bookedHours() {
+        return $this->hasMany(BookedHour::class);
+    }
 }

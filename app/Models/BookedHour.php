@@ -11,23 +11,27 @@ class BookedHour extends Model
     //
     protected $guarded = ['id'];
 
-    // Filter query by field name and owner name
-    public function scopeFilter(Builder $query, array $filters)
+    public function booking()
     {
-        $query->when($filters['search'] ?? false, function ($query, $search) {
-            return $query->where('field_id', 'like', '%' . $search . '%')
-                ->orWhereHas('owner', function ($query) use ($search) {
-                    $query->where('name', 'like', '%' . $search . '%');
-                });
-        });
+        return $this->belongsTo(Booking::class);
     }
 
-    // Filter by field ID and future dates
+    public function scopeBookingId(Builder $query, $bookingId) 
+    {
+        return $query->where('booking_id', $bookingId);
+    }
+
+    // Filter by field ID and future dates, excluding canceled bookings
     public function scopeFieldFutureBookings(Builder $query, $fieldId)
     {
         return $query->where('field_id', $fieldId)
-                    ->where('schedule_date', '>=', Carbon::now()->toDateString());
+            ->where('schedule_date', '>=', Carbon::now()->toDateString())
+            ->whereHas('booking', function($query) {
+                $query->where('status', '!=', 'canceled');
+            });
     }
 
-    
+    public function schedule() {
+        return $this->belongsTo(Schedule::class);
+    }
 }
