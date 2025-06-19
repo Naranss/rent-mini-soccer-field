@@ -90,5 +90,9 @@
             </tbody>
         </table>
     </div>
+
+    <div style="margin-top: 15px;">
+        {{ $bookings->withQueryString()->links() }}
+    </div>
 </section>
 @endsection

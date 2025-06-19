@@ -29,32 +29,23 @@
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">User</p>
-                <p class="text-lg text-gray-900">{{ $schedule->user->name ?? '-' }}</p>
-            </div>
-
-            <div>
-                <p class="text-sm text-gray-500">Status</p>
-                <span
-                    class="inline-block px-3 py-1 text-sm rounded-full 
-                    {{ $schedule->status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                    {{ ucfirst($schedule->status) }}
-                </span>
-            </div>
-
-            <div>
-                <p class="text-sm text-gray-500">Start Time</p>
-                <p class="text-lg text-gray-900">{{ \Carbon\Carbon::parse($schedule->start_time)->format('d M Y, H:i') }}</p>
-            </div>
-
-            <div>
-                <p class="text-sm text-gray-500">End Time</p>
-                <p class="text-lg text-gray-900">{{ \Carbon\Carbon::parse($schedule->end_time)->format('d M Y, H:i') }}</p>
+                <p class="text-sm text-gray-500">Weekday</p>
+                <p class="text-lg font-medium text-gray-900">{{ $schedule->hari ?? '-' }}</p>
             </div>
 
             <div>
                 <p class="text-sm text-gray-500">Created At</p>
                 <p class="text-lg text-gray-900">{{ $schedule->created_at->format('d M Y, H:i') }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Start Time</p>
+                <p class="text-lg text-gray-900">{{ $schedule->start_time }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">End Time</p>
+                <p class="text-lg text-gray-900">{{ $schedule->end_time }}</p>
             </div>
         </div>
 
