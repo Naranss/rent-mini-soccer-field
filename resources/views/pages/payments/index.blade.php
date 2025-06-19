@@ -3,6 +3,7 @@
 @section('title', 'Payment Table')
 
 @section('content')
+
     <section class="p-6">
         <!-- Heading -->
         <div class="flex items-center justify-between mb-6">
@@ -27,6 +28,7 @@
                 </button>
             </div>
         </form>
+
 
         <!-- Table -->
         <div class="overflow-x-auto bg-white rounded-lg shadow">

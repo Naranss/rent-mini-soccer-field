@@ -1,3 +1,5 @@
 *
 !fields/
+!fieldseeds/
+!fieldseeds/*
 !.gitignore

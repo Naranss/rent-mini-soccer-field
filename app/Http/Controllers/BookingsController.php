@@ -27,7 +27,7 @@ class BookingsController extends Controller
     public function edit(Booking $booking)
     {
         $fields = Field::all();
-        return view('bookings.edit', compact('booking', 'fields'));
+        return view('pages.bookings.edit', compact('booking', 'fields'));
     }
 
     // Memperbarui booking
@@ -49,7 +49,7 @@ class BookingsController extends Controller
     public function destroy(Booking $booking)
     {
         $booking->delete();
-        return redirect()->route('bookings.index')->with('success', 'Booking deleted successfully.');
+        return redirect()->route('pages.bookings.index')->with('success', 'Booking deleted successfully.');
     }
 
     // Owner: Melihat semua booking untuk lapangan 
@@ -60,7 +60,7 @@ class BookingsController extends Controller
         $bookings = Booking::whereIn('field_id', $fields)
             ->with(['user', 'field'])
             ->get();
-        return view('bookings.owner', compact('bookings'));
+        return view('pages.bookings.owner', compact('bookings'));
     }
 
     // Owner: Menerima/mengkonfirmasi booking 
