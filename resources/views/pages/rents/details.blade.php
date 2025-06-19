@@ -71,7 +71,7 @@
 
                     @if($payment->status === 'unpaid')
                         <div class="mt-6">
-                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition">
                                 Proceed to Payment
                             </button>
                         </div>
