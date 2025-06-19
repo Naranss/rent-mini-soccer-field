@@ -16,53 +16,6 @@ class BookingsController extends Controller
         return view('pages.bookings.index', compact('bookings'));
     }
 
-    // Customer: Menampilkan form untuk membuat booking baru
-    public function create()
-    {
-        $fields = Field::all(); // Ambil semua lapangan untuk ditampilkan di form
-        return view('bookings.create', compact('fields'));
-    }
-
-    // Customer: Menyimpan booking baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'field_id' => 'required|exists:fields,id',
-            'date' => 'required|date|after_or_equal:today',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-        ]);
-
-        // Cek apakah slot waktu tersedia
-        $existingBooking = Booking::where('field_id', $request->field_id)
-            ->where('date', $request->date)
-            ->where(function ($query) use ($request) {
-                $query->whereBetween('start_time', [$request->start_time, $request->end_time])
-                    ->orWhereBetween('end_time', [$request->start_time, $request->end_time])
-                    ->orWhere(function ($q) use ($request) {
-                        $q->where('start_time', '<=', $request->start_time)
-                            ->where('end_time', '>=', $request->end_time);
-                    });
-            })
-            ->where('status', '!=', 'canceled')
-            ->exists();
-
-        if ($existingBooking) {
-            return redirect()->back()->withErrors(['error' => 'The selected time slot is already booked.']);
-        }
-
-        $booking = Booking::create([
-            'user_id' => Auth::id(),
-            'field_id' => $request->field_id,
-            'date' => $request->date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'status' => 'pending',
-        ]);
-
-        return redirect()->route('bookings.index')->with('success', 'Booking created successfully. Awaiting owner confirmation.');
-    }
-
     // Menampilkan detail booking
     public function show(Booking $booking)
     {

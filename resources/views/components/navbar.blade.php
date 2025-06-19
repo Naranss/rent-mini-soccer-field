@@ -29,7 +29,7 @@
         <!-- Desktop Nav -->
         <nav id="mainNav" class="hidden md:flex items-center space-x-6">
             <a href="/about" class="hover:text-indigo-400">About Us</a>
-            <a href="/rent" class="hover:text-indigo-400">Rent Field</a>
+            <a href="{{ route('rent.index') }}" class="hover:text-indigo-400">Rent Field</a>
             <a href="/location" class="hover:text-indigo-400">Location</a>
 
             @guest

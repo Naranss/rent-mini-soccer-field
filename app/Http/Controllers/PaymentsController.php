@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+use function PHPUnit\Framework\returnSelf;
 
 class PaymentsController extends Controller
 {
@@ -15,29 +19,6 @@ class PaymentsController extends Controller
         return view('pages.payments.index', compact('payments'));
     }
 
-    // Admin: Menampilkan form untuk membuat pembayaran baru
-    public function create()
-    {
-        return view('payments.create');
-    }
-
-    // Admin: Menyimpan pembayaran baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'booking_id' => 'required|exists:bookings,id',
-            'customer_id' => 'required|exists:users,id',
-            'rentee_id' => 'required|exists:users,id',
-            'payment_method' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:0',
-            'payment_date' => 'nullable|date',
-            'status' => 'required|in:paid,unpaid',
-        ]);
-
-        Payment::create($request->all());
-
-        return redirect()->route('payments.index')->with('success', 'Payment created successfully.');
-    }
 
     // Admin: Menampilkan detail pembayaran
     public function show(Payment $payment)
@@ -75,37 +56,5 @@ class PaymentsController extends Controller
     {
         $payment->delete();
         return redirect()->route('payments.index')->with('success', 'Payment deleted successfully.');
-    }
-
-    // User: Mengecek status pembayaran mereka
-    public function checkStatus()
-    {
-        $user = Auth::user();
-        $payments = Payment::where('customer_id', $user->id)
-            ->with(['booking', 'rentee'])
-            ->get();
-        return view('payments.user_status', compact('payments'));
-    }
-
-    // Owner (Rentee): Mengecek dan mengkonfirmasi pembayaran
-    public function confirmPayment(Request $request, Payment $payment)
-    {
-        $user = Auth::user();
-
-        // Pastikan user adalah rentee dari pembayaran ini
-        if ($payment->rentee_id !== $user->id) {
-            return redirect()->back()->with('error', 'Unauthorized action.');
-        }
-
-        $request->validate([
-            'status' => 'required|in:paid,unpaid',
-        ]);
-
-        $payment->update([
-            'status' => $request->status,
-            'payment_date' => $request->status === 'paid' ? now() : $payment->payment_date,
-        ]);
-
-        return redirect()->back()->with('success', 'Payment status updated successfully.');
     }
 }
