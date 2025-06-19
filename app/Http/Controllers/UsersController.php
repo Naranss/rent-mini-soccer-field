@@ -16,7 +16,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::filter(request(['search']))->paginate(6);
         return view('pages.users.index', compact('users'));
     }
 

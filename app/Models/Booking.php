@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,18 @@ class Booking extends Model
         'date' => 'date',
         'start_time' => 'datetime',
     ];
+
+    public function scopeFilter(Builder $query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('field', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        });
+    }
 
     // Relasi dengan User (Customer)
     public function user()

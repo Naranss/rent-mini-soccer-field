@@ -17,50 +17,47 @@
     </div>
     @endif
 
-    <!-- Search Bar -->
-    <form action="{{ route('payments.index') }}" method="GET" class="mb-6">
-        <div class="flex items-center space-x-2">
-            <input type="text" name="search" placeholder="Search by customer or method"
-                value="{{ old('search', request('search')) }}"
-                class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-                Search
-            </button>
-        </div>
-    </form>
+        <!-- Search Bar -->
+        <form action="{{ route('payments.index') }}" method="GET" class="mb-6">
+            <div class="flex items-center space-x-2">
+                <input type="text" name="search" placeholder="Search by customer or order id"
+                    value="{{ old('search', request('search')) }}"
+                    class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                    Search
+                </button>
+            </div>
+        </form>
 
 
-    <!-- Table -->
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-        <table class="min-w-full text-sm text-left">
-            <thead class="bg-gray-100 text-gray-700 uppercase">
-                <tr>
-                    <th class="px-6 py-3">Customer</th>
-                    <th class="px-6 py-3">Booking</th>
-                    <th class="px-6 py-3">Amount</th>
-                    <th class="px-6 py-3">Method</th>
-                    <th class="px-6 py-3">Status</th>
-                    <th class="px-6 py-3">Paid At</th>
-                    <th class="px-6 py-3">Action</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                @foreach ($payments as $payment)
-                <tr>
-                    <td class="px-6 py-4">{{ $payment->user->name }}</td>
-                    <td class="px-6 py-4">{{ $payment->booking->field->name }} ({{ $payment->booking->date }})</td>
-                    <td class="px-6 py-4">Rp{{ number_format($payment->amount, 0, ',', '.') }}</td>
-                    <td class="px-6 py-4">{{ ucfirst($payment->method) }}</td>
-                    <td class="px-6 py-4">
-                        <span
-                            class="px-2 py-1 text-xs font-semibold rounded-full
+        <!-- Table -->
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="min-w-full text-sm text-left">
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="px-6 py-3">Customer</th>
+                        <th class="px-6 py-3">Order Id</th>
+                        <th class="px-6 py-3">Amount</th>
+                        <th class="px-6 py-3">Method</th>
+                        <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @foreach ($payments as $payment)
+                        <tr>
+                            <td class="px-6 py-4">{{ $payment->customer->name }}</td>
+                            <td class="px-6 py-4">{{ $payment->order_id }}</td>
+                            <td class="px-6 py-4">Rp{{ number_format($payment->amount, 0, ',', '.') }}</td>
+                            <td class="px-6 py-4">{{ ucfirst($payment->method) }}</td>
+                            <td class="px-6 py-4">
+                                <span
+                                    class="px-2 py-1 text-xs font-semibold rounded-full
                                 {{ $payment->status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                            {{ ucfirst($payment->status) }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">{{ \Carbon\Carbon::parse($payment->created_at)->format('d M Y, H:i') }}
-                    </td>
-                    <td class="px-6 py-4">
+                                    {{ ucfirst($payment->status) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
                         <!-- Dropdown -->
                         <div x-data="{ open: false }" class="static">
                             <button @click="open = !open"

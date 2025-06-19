@@ -17,7 +17,7 @@ class SchedulesController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Schedule::with('field')->filter(request('search'))->paginate(10);
+        $schedules = Schedule::with('field')->filter(request('search'))->paginate(6);
 
         return view('pages.schedules.index', compact('schedules'));
     }

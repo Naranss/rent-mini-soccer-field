@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->string('payment_method')->nullable();
             $table->decimal('amount', 10, 2);
             $table->dateTime('payment_date')->nullable();
-            $table->enum('status', ['paid', 'unpaid'])->default('unpaid');
+            $table->enum('status', ['paid', 'unpaid', 'canceled'])->default('unpaid');
             $table->timestamps();
         });
     }

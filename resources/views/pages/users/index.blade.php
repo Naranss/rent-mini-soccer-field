@@ -3,63 +3,63 @@
 @section('title', 'User Table')
 
 @section('content')
-<section class="p-6">
-    <!-- Heading and Add Button -->
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">User Table</h1>
-        <a href="{{ route('users.create') }}"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            + Add User
-        </a>
-    </div>
-
-    <!-- Success Message -->
-    @if (session()->has('success'))
-    <div class="mb-6 p-4 rounded-lg bg-green-100 text-green-800 text-sm">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    <!-- Search Bar -->
-    <form action="{{ route('users.index') }}" method="GET" class="mb-6">
-        <div class="flex items-center space-x-2">
-            <input type="text" name="search" placeholder="Search by name or email"
-                value="{{ old('search', request('search')) }}"
-                class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-                Search
-            </button>
+    <section class="p-6">
+        <!-- Heading and Add Button -->
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">User Table</h1>
+            <a href="{{ route('users.create') }}"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                + Add User
+            </a>
         </div>
-    </form>
 
-    <!-- Table -->
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-        <table class="min-w-full text-sm text-left">
-            <thead class="bg-gray-100 text-gray-700 uppercase">
-                <tr>
-                    <th class="px-6 py-3">Name</th>
-                    <th class="px-6 py-3">Email</th>
-                    <th class="px-6 py-3">Role</th>
-                    <th class="px-6 py-3">Registered At</th>
-                    <th class="px-6 py-3">Action</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                @foreach ($users as $user)
-                <tr>
-                    <td class="px-6 py-4">{{ $user->name }}</td>
-                    <td class="px-6 py-4">{{ $user->email }}</td>
-                    <td class="px-6 py-4 capitalize">{{ $user->role }}</td>
-                    <td class="px-6 py-4">{{ $user->created_at->format('d M Y') }}</td>
-                    <td class="px-6 py-4">
-                        <!-- Dropdown -->
-                        <div x-data="{ open: false }" class="static">
-                            <button @click="open = !open"
-                                class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition">
-                                ⋮
-                            </button>
-                            <div x-show="open" @click.outside="open = false" x-cloak
-                                class="absolute right-0 mt-2 w-44 bg-white rounded shadow z-10 divide-y">
+        <!-- Success Message -->
+        @if (session()->has('success'))
+            <div class="mb-6 p-4 rounded-lg bg-green-100 text-green-800 text-sm">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Search Bar -->
+        <form action="{{ route('users.index') }}" method="GET" class="mb-6">
+            <div class="flex items-center space-x-2">
+                <input type="text" name="search" placeholder="Search by username or email"
+                    value="{{ old('search', request('search')) }}"
+                    class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                    Search
+                </button>
+            </div>
+        </form>
+
+        <!-- Table -->
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="min-w-full text-sm text-left">
+                <thead class="bg-gray-100 text-gray-700 uppercase">
+                    <tr>
+                        <th class="px-6 py-3">Username</th>
+                        <th class="px-6 py-3">Email</th>
+                        <th class="px-6 py-3">Role</th>
+                        <th class="px-6 py-3">Registered At</th>
+                        <th class="px-6 py-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @foreach ($users as $user)
+                        <tr>
+                            <td class="px-6 py-4">{{ $user->name }}</td>
+                            <td class="px-6 py-4">{{ $user->email }}</td>
+                            <td class="px-6 py-4 capitalize">{{ $user->role }}</td>
+                            <td class="px-6 py-4">{{ $user->created_at->format('d M Y') }}</td>
+                            <td class="px-6 py-4">
+                                <!-- Dropdown -->
+                                <div x-data="{ open: false }" class="relative">
+                                    <button @click="open = !open"
+                                        class="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition">
+                                        ⋮
+                                    </button>
+                                    <div x-show="open" @click.outside="open = false" x-cloak
+                                        class="absolute right-0 mt-2 w-44 bg-white rounded shadow z-10 divide-y">
                                 <!-- Edit -->
                                 <a href="{{ route('users.edit', $user) }}"
                                     class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
@@ -99,7 +99,6 @@
                                         Delete
                                     </button>
                                 </form>
-
                             </div>
                         </div>
                     </td>

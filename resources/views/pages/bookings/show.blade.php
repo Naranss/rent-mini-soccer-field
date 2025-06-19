@@ -28,8 +28,12 @@
                 <p class="text-lg text-gray-900">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</p>
             </div>
             <div>
-                <p class="text-sm text-gray-500">Time</p>
-                <p class="text-lg text-gray-900">{{ $booking->time }}</p>
+                <p class="text-sm text-gray-500">Booking Time</p>
+                @foreach ($bookedHours as $hour)
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded mb-1">
+                        {{ $hour->schedule->start_time }} - {{ $hour->schedule->end_time }}
+                    </span>
+                @endforeach
             </div>
             <div>
                 <p class="text-sm text-gray-500">Status</p>
