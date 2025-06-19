@@ -23,7 +23,7 @@
         <!-- Search Bar -->
         <form action="{{ route('users.index') }}" method="GET" class="mb-6">
             <div class="flex items-center space-x-2">
-                <input type="text" name="search" placeholder="Search by name or email"
+                <input type="text" name="search" placeholder="Search by username or email"
                     value="{{ old('search', request('search')) }}"
                     class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
@@ -37,7 +37,7 @@
             <table class="min-w-full text-sm text-left">
                 <thead class="bg-gray-100 text-gray-700 uppercase">
                     <tr>
-                        <th class="px-6 py-3">Name</th>
+                        <th class="px-6 py-3">Username</th>
                         <th class="px-6 py-3">Email</th>
                         <th class="px-6 py-3">Role</th>
                         <th class="px-6 py-3">Registered At</th>

@@ -42,15 +42,15 @@
                 <!-- Date -->
                 <div>
                     <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                    <input type="date" id="date" name="date" required value="{{ $booking->date }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input type="text" id="date" name="date" required value="{{ old('date', \Carbon\Carbon::parse($booking->date)->format('d M Y')) }}"
+                        disabled class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <!-- Start Time -->
                 <div>
                     <label for="start_time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
                     <input type="time" id="start_time" name="start_time" required
                         value="{{ $booking->start_time ? date('H:i', strtotime($booking->start_time)) : '' }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        disabled class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <!-- Status -->
                 <div class="md:col-span-2">
@@ -60,7 +60,7 @@
                         <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
                         <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed
                         </option>
-                        <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Cancelled
+                        <option value="canceled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Canceled
                         </option>
                     </select>
                 </div>
