@@ -30,7 +30,7 @@ class PaymentsController extends Controller
     // Admin: Menampilkan form untuk mengedit pembayaran
     public function edit(Payment $payment)
     {
-        return view('payments.edit', compact('payment'));
+        return view('pages.payments.edit', compact('payment'));
     }
 
     // Admin: Memperbarui pembayaran
@@ -48,13 +48,13 @@ class PaymentsController extends Controller
 
         $payment->update($request->all());
 
-        return redirect()->route('payments.index')->with('success', 'Payment updated successfully.');
+        return redirect()->route('pages.payments.index')->with('success', 'Payment updated successfully.');
     }
 
     // Admin: Menghapus pembayaran
     public function destroy(Payment $payment)
     {
         $payment->delete();
-        return redirect()->route('payments.index')->with('success', 'Payment deleted successfully.');
+        return redirect()->route('pages.payments.index')->with('success', 'Payment deleted successfully.');
     }
 }

@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             return $user->role === 'OWNER';
         });
         Gate::define('payment_booking', function (User $user) {
-            return $user->role === 'CUSTOMER' || $user->role === 'OWNER';
+            return $user->role === 'ADMIN' || $user->role === 'OWNER';
         });
         Gate::define('manage_fields', function (User $user) {
             return $user->role === 'ADMIN' || $user->role === 'OWNER';

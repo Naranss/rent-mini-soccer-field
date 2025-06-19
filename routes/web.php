@@ -64,6 +64,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     // Booking Routes
     Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{booking}', [BookingsController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{booking}/edit', [BookingsController::class, 'edit'])->name('bookings.edit');
+    Route::put('/bookings/{booking}', [BookingsController::class, 'update'])->name('bookings.update');
+    Route::delete('/bookings/{booking}', [BookingsController::class, 'destroy'])->name('bookings.destroy');
 
     //Schedule Routes
     Route::get('/schedules', [SchedulesController::class, 'index'])->name('schedules.index');
@@ -77,6 +81,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     // Payment Routes
     Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index');
     Route::get('/payments/{payment}', [PaymentsController::class, 'show'])->name('payments.show');
+    Route::get('/payments/{payment}/edit', [PaymentsController::class, 'edit'])->name('payments.edit');
+    Route::put('/payments/{payment}', [PaymentsController::class, 'update'])->name('payments.update');
+    Route::delete('/payments/{payment}', [PaymentsController::class, 'destroy'])->name('payments.destroy');
 
     // User Routes (admin)
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
