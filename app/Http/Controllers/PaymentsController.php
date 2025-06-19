@@ -16,7 +16,7 @@ class PaymentsController extends Controller
     public function index()
     {
         $payments = Payment::with(['booking', 'customer', 'rentee'])->get();
-        return view('payments.index', compact('payments'));
+        return view('pages.payments.index', compact('payments'));
     }
 
 
@@ -24,7 +24,7 @@ class PaymentsController extends Controller
     public function show(Payment $payment)
     {
         $payment->load(['booking', 'customer', 'rentee']);
-        return view('payments.show', compact('payment'));
+        return view('pages.payments.show', compact('payment'));
     }
 
     // Admin: Menampilkan form untuk mengedit pembayaran

@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SchedulesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -64,9 +65,25 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     // Booking Routes
     Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');
 
+    //Schedule Routes
+    Route::get('/schedules', [SchedulesController::class, 'index'])->name('schedules.index');
+    Route::get('/schedules/create', [SchedulesController::class, 'create'])->name('schedules.create');
+    Route::post('/schedules', [SchedulesController::class, 'store'])->name('schedules.store');
+    Route::get('/schedules/{schedule}', [SchedulesController::class, 'show'])->name('schedules.show');
+    Route::get('/schedules/{schedule}/edit', [SchedulesController::class, 'edit'])->name('schedules.edit');
+    Route::put('/schedules/{schedule}', [SchedulesController::class, 'update'])->name('schedules.update');
+    Route::delete('/schedules/{schedule}', [SchedulesController::class, 'destroy'])->name('schedules.destroy');
+
     // Payment Routes
     Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index');
+    Route::get('/payments/{payment}', [PaymentsController::class, 'show'])->name('payments.show');
 
     // User Routes (admin)
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
+    Route::post('/users', [UsersController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}', [UsersController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
 });
