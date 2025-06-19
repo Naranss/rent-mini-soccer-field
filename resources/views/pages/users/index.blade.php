@@ -60,59 +60,57 @@
                                     </button>
                                     <div x-show="open" @click.outside="open = false" x-cloak
                                         class="absolute right-0 mt-2 w-44 bg-white rounded shadow z-10 divide-y">
+                                <!-- Edit -->
+                                <a href="{{ route('users.edit', $user) }}"
+                                    class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.5H3v-4.5L16.862 3.487z" />
+                                    </svg>
+                                    Edit
+                                </a>
 
-                                        <!-- Edit -->
-                                        <a href="{{ route('users.edit', $user) }}"
-                                            class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-blue-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.5H3v-4.5L16.862 3.487z" />
-                                            </svg>
-                                            Edit
-                                        </a>
+                                <!-- Show -->
+                                <a href="{{ route('users.show', $user) }}"
+                                    class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    Show
+                                </a>
 
-                                        <!-- Show -->
-                                        <a href="{{ route('users.show', $user) }}"
-                                            class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-sm text-indigo-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                            Show
-                                        </a>
-
-                                        <!-- Delete -->
-                                        <form action="{{ route('users.destroy', $user) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this user?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="w-full flex items-center gap-2 px-4 py-2 hover:bg-red-100 text-sm text-red-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                        d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                                Delete
-                                            </button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <div style="margin-top: 15px;">
-        {{ $users->withQueryString()->links() }}
+                                <!-- Delete -->
+                                <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="w-full flex items-center gap-2 px-4 py-2 hover:bg-red-100 text-sm text-red-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+</section>
+
+<div style="margin-top: 15px;">
+    {{ $users->withQueryString()->links() }}
+</div>
 
 @endsection
