@@ -13,13 +13,13 @@
                 @endphp
 
                 @switch($role)
-                    @case('admin')
+                    @case('ADMIN')
                         Here you can manage users, fields, and oversee the entire system efficiently.
                         @break
-                    @case('owner')
+                    @case('OWNER')
                         You have full control over field listings, bookings, and payments.
                         @break
-                    @case('customer')
+                    @case('CUSTOMER')
                         Manage your bookings, explore available fields, and enjoy the game!
                         @break
                     @default
@@ -34,39 +34,81 @@
         @endauth
     </section>
 
-    <!-- Info Cards -->
     @auth
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            <!-- Booking Card -->
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-indigo-600">Bookings</h3>
-                <p class="text-3xl font-bold mt-2">12</p>
-                <p class="text-sm text-gray-500 mt-1">Total active field bookings</p>
-            </div>
+        @php
+            $role = auth()->user()->role;
+        @endphp
 
-            <!-- Fields Card -->
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-indigo-600">Fields</h3>
-                <p class="text-3xl font-bold mt-2">5</p>
-                <p class="text-sm text-gray-500 mt-1">Total mini soccer fields available</p>
-            </div>
+        @if ($role === 'ADMIN')
+            <!-- Admin Dashboard -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-blue-600">Total Users</h3>
+                    <p class="text-3xl font-bold mt-2">45</p>
+                    <p class="text-sm text-gray-500 mt-1">Registered on the platform</p>
+                </div>
 
-            <!-- Upcoming Matches Card -->
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-indigo-600">Upcoming Matches</h3>
-                <p class="text-3xl font-bold mt-2">3</p>
-                <p class="text-sm text-gray-500 mt-1">Scheduled this week</p>
-            </div>
-        </section>
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-blue-600">Fields Managed</h3>
+                    <p class="text-3xl font-bold mt-2">5</p>
+                    <p class="text-sm text-gray-500 mt-1">Available for bookings</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-blue-600">Total Bookings</h3>
+                    <p class="text-3xl font-bold mt-2">120</p>
+                    <p class="text-sm text-gray-500 mt-1">Across all users</p>
+                </div>
+            </section>
+
+            <!-- Admin Activity Log -->
+            <section class="bg-white p-6 rounded-lg shadow mb-10">
+                <h3 class="text-xl font-semibold mb-2 text-indigo-600">Recent Activities</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-2">
+                    <li>New user registered: John Doe</li>
+                    <li>Payment confirmed for booking #124</li>
+                    <li>New field added: Yapping Arena B</li>
+                </ul>
+            </section>
+
+        @elseif ($role === 'OWNER')
+            <!-- Owner Dashboard -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-green-600">Your Fields</h3>
+                    <p class="text-3xl font-bold mt-2">3</p>
+                    <p class="text-sm text-gray-500 mt-1">Currently listed</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-green-600">Bookings</h3>
+                    <p class="text-3xl font-bold mt-2">40</p>
+                    <p class="text-sm text-gray-500 mt-1">For your fields this month</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-green-600">Income</h3>
+                    <p class="text-3xl font-bold mt-2">Rp 3,200,000</p>
+                    <p class="text-sm text-gray-500 mt-1">Estimated this month</p>
+                </div>
+            </section>
+
+
+        @elseif ($role === 'CUSTOMER')
+            <!-- Customer Dashboard -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-purple-600">Your Bookings</h3>
+                    <p class="text-3xl font-bold mt-2">2</p>
+                    <p class="text-sm text-gray-500 mt-1">Active this week</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+                    <h3 class="text-lg font-semibold text-purple-600">Upcoming Matches</h3>
+                    <p class="text-3xl font-bold mt-2">1</p>
+                    <p class="text-sm text-gray-500 mt-1">On your schedule</p>
+                </div>
+            </section>
+        @endif
     @endauth
-
-    <!-- Tentang Yapping Sport Center -->
-    <section class="bg-white p-6 rounded-lg shadow">
-        <h3 class="text-xl font-semibold mb-2 text-indigo-600">About Yapping Sport Center</h3>
-        <p class="text-gray-700 leading-relaxed">
-            Yapping Sport Center is a premier mini soccer facility designed to bring sports lovers together in a fun and energetic environment. 
-            With well-maintained fields, a user-friendly booking system, and a vibrant community, our goal is to provide the best space for recreation, training, and friendly matches. 
-            Whether you're an amateur player or a local team, our platform supports all your scheduling and management needs.
-        </p>
-    </section>
 @endsection
