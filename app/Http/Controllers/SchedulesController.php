@@ -17,16 +17,7 @@ class SchedulesController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Schedule::with(['field', 'user'])
-            ->when($request->search, function ($query) use ($request) {
-                $search = $request->search;
-                $query->whereHas('field', function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%");
-                })->orWhereHas('user', function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%");
-                });
-            })
-            ->get();
+        $schedules = Schedule::with('field')->filter(request('search'))->paginate(10);
 
         return view('pages.schedules.index', compact('schedules'));
     }
@@ -46,29 +37,26 @@ class SchedulesController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'user_id' => 'required|exists:users,id',
-            'start_time' => 'required|date_format:Y-m-d\TH:i',
-            'end_time' => 'required|date_format:Y-m-d\TH:i|after:start_time',
-            'status' => 'required|in:pending,confirmed',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
 
         $startTime = Carbon::parse($validated['start_time'])->format('H:i');
         $endTime = Carbon::parse($validated['end_time'])->format('H:i');
         $currentTime = strtotime($startTime);
-        $hari = Carbon::parse($validated['start_time'])->locale('id')->dayName;
 
         $fieldId = $validated['field_id'];
-        $userId = $validated['user_id'];
-        $status = $validated['status'];
 
         while ($currentTime < strtotime($endTime)) {
             $slotStartTime = date('H:i', $currentTime);
             $slotEndTime = date('H:i', strtotime('+1 hour', $currentTime));
 
             $existingSchedule = Schedule::where('field_id', $fieldId)
-                ->where('hari', $hari)
+                ->where('hari', $validated['hari'])
                 ->where(function ($query) use ($slotStartTime, $slotEndTime) {
                     $query->where(function ($q) use ($slotStartTime, $slotEndTime) {
                         $q->where('start_time', '<=', $slotStartTime)
@@ -89,11 +77,9 @@ class SchedulesController extends Controller
 
             Schedule::create([
                 'field_id' => $fieldId,
-                'user_id' => $userId,
-                'hari' => $hari,
+                'hari' => $validated['hari'],
                 'start_time' => $slotStartTime,
                 'end_time' => $slotEndTime,
-                'status' => $status,
             ]);
 
             $currentTime = strtotime('+1 hour', $currentTime);
@@ -107,7 +93,7 @@ class SchedulesController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        $schedule->load(['field', 'user']);
+        $schedule->load(['field']);
         return view('pages.schedules.show', compact('schedule'));
     }
 
@@ -117,9 +103,8 @@ class SchedulesController extends Controller
     public function edit(Schedule $schedule)
     {
         $fields = Field::all(); // Ambil semua field untuk edit
-        $users = User::all();
-        $schedule->load(['field', 'user']);
-        return view('pages.schedules.edit', compact('schedule', 'fields', 'users'));
+        $schedule->load(['field']);
+        return view('pages.schedules.edit', compact('schedule', 'fields'));
     }
 
     /**
@@ -129,23 +114,41 @@ class SchedulesController extends Controller
     {
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'user_id' => 'required|exists:users,id',
-            'start_time' => 'required|date_format:Y-m-d\TH:i',
-            'end_time' => 'required|date_format:Y-m-d\TH:i|after:start_time',
-            'status' => 'required|in:pending,confirmed',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
 
         $startTime = Carbon::parse($validated['start_time'])->format('H:i');
         $endTime = Carbon::parse($validated['end_time'])->format('H:i');
-        $hari = Carbon::parse($validated['start_time'])->locale('id')->dayName;
+
+        // Check if the time gap is more than 1 hour
+        $start = Carbon::createFromFormat('H:i', $startTime);
+        $end = Carbon::createFromFormat('H:i', $endTime);
+        if ($start->diffInMinutes($end) > 60) {
+            return redirect()->back()->withErrors(['error' => 'The time gap between start and end time must not be more than 1 hour.']);
+        }
+
+        // Check for existing schedule overlap (excluding itself)
+        $exists = Schedule::where('field_id', $validated['field_id'])
+            ->where('hari', $validated['hari'])
+            ->where('id', '!=', $schedule->id)
+            ->where(function ($query) use ($startTime, $endTime) {
+                $query->where(function ($q) use ($startTime, $endTime) {
+                    $q->where('start_time', '<', $endTime)
+                        ->where('end_time', '>', $startTime);
+                });
+            })
+            ->exists();
+        if ($exists) {
+            return redirect()->back()->withErrors(['error' => 'There is an existing schedule that overlaps with the selected time.']);
+        }
 
         $schedule->update([
             'field_id' => $validated['field_id'],
-            'user_id' => $validated['user_id'],
-            'hari' => $hari,
+            'hari' => $validated['hari'],
             'start_time' => $startTime,
             'end_time' => $endTime,
-            'status' => $validated['status'],
         ]);
 
         return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil diupdate!');

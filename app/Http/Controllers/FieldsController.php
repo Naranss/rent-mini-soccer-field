@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Field;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FieldsController extends Controller
 {
@@ -12,7 +13,8 @@ class FieldsController extends Controller
      */
     public function index()
     {
-        $fields = Field::with('owner')->filter(request(['search']))->get();
+            $fields = Field::with('owner')->filter(request(['search']))->paginate(5);
+
         return view('pages.fields.index', compact('fields'));
     }
 
@@ -47,7 +49,9 @@ class FieldsController extends Controller
      */
     public function show(Field $field)
     {
-        $fieldImages = $field->fieldImages;
+        if (Auth::user()->role == 'OWNER') {
+            $fieldImages = $field->fieldImages;
+        }
         return view('pages.fields.show', compact('field', 'fieldImages'));
     }
 
