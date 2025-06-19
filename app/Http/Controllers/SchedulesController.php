@@ -15,7 +15,7 @@ class SchedulesController extends Controller
     public function index()
     {
         $schedules = Schedule::with('field')->get();
-        return view('schedules.index', compact('schedules'));
+        return view('pages.schedules.index', compact('schedules'));
     }
 
     /**
