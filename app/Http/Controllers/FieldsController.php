@@ -13,7 +13,7 @@ class FieldsController extends Controller
      */
     public function index()
     {
-            $fields = Field::with('owner')->filter(request(['search']))->paginate(5);
+            $fields = Field::with('owner')->filter(request(['search']))->paginate(6);
 
         return view('pages.fields.index', compact('fields'));
     }

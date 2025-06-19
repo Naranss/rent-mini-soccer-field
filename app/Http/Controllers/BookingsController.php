@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookedHour;
 use App\Models\Booking;
 use App\Models\Field;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class BookingsController extends Controller
     // Menampilkan semua booking (untuk admin atau overview)
     public function index()
     {
-        $bookings = Booking::with(['user', 'field'])->paginate(10);
+        $bookings = Booking::with(['user', 'field'])->filter(request(['search']))->paginate(6);
         return view('pages.bookings.index', compact('bookings'));
     }
 
@@ -20,7 +21,11 @@ class BookingsController extends Controller
     public function show(Booking $booking)
     {
         $booking->load(['user', 'field']);
-        return view('pages.bookings.show', compact('booking'));
+        $bookedHours = BookedHour::with('schedule')
+            ->where('booking_id', $booking->id)
+            ->orderBy('schedule_id')
+            ->get();
+        return view('pages.bookings.show', compact('booking', 'bookedHours'));
     }
 
     // Menampilkan form untuk mengedit booking
@@ -33,14 +38,12 @@ class BookingsController extends Controller
     // Memperbarui booking
     public function update(Request $request, Booking $booking)
     {
-        $request->validate([
+        $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'date' => 'required|date|after_or_equal:today',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'status' => 'required|in:pending,confirmed,canceled'
         ]);
 
-        $booking->update($request->all());
+        $booking->update($validated);
 
         return redirect()->route('bookings.index')->with('success', 'Booking updated successfully.');
     }
@@ -49,7 +52,7 @@ class BookingsController extends Controller
     public function destroy(Booking $booking)
     {
         $booking->delete();
-        return redirect()->route('pages.bookings.index')->with('success', 'Booking deleted successfully.');
+        return redirect()->route('bookings.index')->with('success', 'Booking deleted successfully.');
     }
 
     // Owner: Melihat semua booking untuk lapangan 

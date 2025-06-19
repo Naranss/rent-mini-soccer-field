@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
 use App\Models\Payment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -15,7 +12,7 @@ class PaymentsController extends Controller
     // Admin: Menampilkan semua pembayaran
     public function index()
     {
-        $payments = Payment::with(['booking', 'customer', 'rentee'])->get();
+        $payments = Payment::with(['booking', 'customer', 'rentee'])->filter(request(['search']))->paginate(6);
         return view('pages.payments.index', compact('payments'));
     }
 
@@ -43,18 +40,18 @@ class PaymentsController extends Controller
             'payment_method' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'nullable|date',
-            'status' => 'required|in:paid,unpaid',
+            'status' => 'required|in:paid,unpaid,canceled',
         ]);
 
         $payment->update($request->all());
 
-        return redirect()->route('pages.payments.index')->with('success', 'Payment updated successfully.');
+        return redirect()->route('payments.index')->with('success', 'Payment updated successfully.');
     }
 
     // Admin: Menghapus pembayaran
     public function destroy(Payment $payment)
     {
         $payment->delete();
-        return redirect()->route('pages.payments.index')->with('success', 'Payment deleted successfully.');
+        return redirect()->route('payments.index')->with('success', 'Payment deleted successfully.');
     }
 }
