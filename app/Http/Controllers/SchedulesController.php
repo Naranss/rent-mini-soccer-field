@@ -6,15 +6,28 @@ use App\Models\Schedule;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use Illuminate\Http\Request;
+use App\Models\Field;
+use App\Models\User;
+use Carbon\Carbon;
 
 class SchedulesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $schedules = Schedule::with('field')->get();
+        $schedules = Schedule::with(['field', 'user'])
+            ->when($request->search, function ($query) use ($request) {
+                $search = $request->search;
+                $query->whereHas('field', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            })
+            ->get();
+
         return view('pages.schedules.index', compact('schedules'));
     }
 
@@ -23,7 +36,9 @@ class SchedulesController extends Controller
      */
     public function create()
     {
-        return view('schedules.create');
+        $fields = Field::all(); // Ambil semua field dari database, termasuk Herman Arena, Coki Suka Tidur Arena, Mbah Singo Arena
+        $users = User::all();
+        return view('pages.schedules.create', compact('fields', 'users'));
     }
 
     /**
@@ -33,23 +48,25 @@ class SchedulesController extends Controller
     {
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'user_id' => 'required|exists:users,id',
+            'start_time' => 'required|date_format:Y-m-d\TH:i',
+            'end_time' => 'required|date_format:Y-m-d\TH:i|after:start_time',
+            'status' => 'required|in:pending,confirmed',
         ]);
 
-        $startTime = strtotime($validated['start_time']);
-        $endTime = strtotime($validated['end_time']);
-        $currentTime = $startTime;
+        $startTime = Carbon::parse($validated['start_time'])->format('H:i');
+        $endTime = Carbon::parse($validated['end_time'])->format('H:i');
+        $currentTime = strtotime($startTime);
+        $hari = Carbon::parse($validated['start_time'])->locale('id')->dayName;
 
         $fieldId = $validated['field_id'];
-        $hari = $validated['hari'];
+        $userId = $validated['user_id'];
+        $status = $validated['status'];
 
-        while ($currentTime < $endTime) {
+        while ($currentTime < strtotime($endTime)) {
             $slotStartTime = date('H:i', $currentTime);
             $slotEndTime = date('H:i', strtotime('+1 hour', $currentTime));
 
-            // Cek apakah slot waktu sudah ada untuk field dan hari yang sama
             $existingSchedule = Schedule::where('field_id', $fieldId)
                 ->where('hari', $hari)
                 ->where(function ($query) use ($slotStartTime, $slotEndTime) {
@@ -70,12 +87,13 @@ class SchedulesController extends Controller
                 return redirect()->back()->withErrors(['error' => 'One or more time slots are already booked for the selected field and day.']);
             }
 
-            // Buat jadwal untuk slot waktu saat ini
             Schedule::create([
                 'field_id' => $fieldId,
+                'user_id' => $userId,
                 'hari' => $hari,
                 'start_time' => $slotStartTime,
                 'end_time' => $slotEndTime,
+                'status' => $status,
             ]);
 
             $currentTime = strtotime('+1 hour', $currentTime);
@@ -89,7 +107,8 @@ class SchedulesController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        return view('schedules.show', compact('schedule'));
+        $schedule->load(['field', 'user']);
+        return view('pages.schedules.show', compact('schedule'));
     }
 
     /**
@@ -97,7 +116,10 @@ class SchedulesController extends Controller
      */
     public function edit(Schedule $schedule)
     {
-        return view('schedules.edit', compact('schedule'));
+        $fields = Field::all(); // Ambil semua field untuk edit
+        $users = User::all();
+        $schedule->load(['field', 'user']);
+        return view('pages.schedules.edit', compact('schedule', 'fields', 'users'));
     }
 
     /**
@@ -107,11 +129,25 @@ class SchedulesController extends Controller
     {
         $validated = $request->validate([
             'field_id' => 'required|exists:fields,id',
-            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'user_id' => 'required|exists:users,id',
+            'start_time' => 'required|date_format:Y-m-d\TH:i',
+            'end_time' => 'required|date_format:Y-m-d\TH:i|after:start_time',
+            'status' => 'required|in:pending,confirmed',
         ]);
-        $schedule->update($validated);
+
+        $startTime = Carbon::parse($validated['start_time'])->format('H:i');
+        $endTime = Carbon::parse($validated['end_time'])->format('H:i');
+        $hari = Carbon::parse($validated['start_time'])->locale('id')->dayName;
+
+        $schedule->update([
+            'field_id' => $validated['field_id'],
+            'user_id' => $validated['user_id'],
+            'hari' => $hari,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+            'status' => $validated['status'],
+        ]);
+
         return redirect()->route('schedules.index')->with('success', 'Jadwal berhasil diupdate!');
     }
 
