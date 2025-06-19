@@ -26,6 +26,15 @@ class Payment extends Model
         'payment_date' => 'datetime',
     ];
 
+    public function scopeFilter(Builder $query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->whereHas('customer', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })
+                ->orWhere('order_id', 'like', '%' . $search . '%');
+        });
+    }
 
     // Relasi dengan Booking
     public function booking()
