@@ -66,6 +66,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     // Booking Routes
     Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');
+
+    //Schedule Routes
+    // Route::get('/schedule', [SchedulesController::class, 'index'])->name('schedule.index');
     
     // Payment Routes
     Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index');
