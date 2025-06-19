@@ -61,7 +61,7 @@
                 @endif
 
             </div>
-            {{ $fields->links() }}
+            {{ $fields->withQueryString()->links() }}
         </div>
     </section>
 

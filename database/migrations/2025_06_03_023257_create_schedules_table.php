@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('field_id')->constrained('fields')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
             $table->string('start_time');
             $table->string('end_time');
-            $table->enum('status', ['pending', 'confirmed'])->default('pending');
             $table->timestamps();
         });
     }

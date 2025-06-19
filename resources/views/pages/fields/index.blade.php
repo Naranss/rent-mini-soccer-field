@@ -122,6 +122,10 @@
                 </tbody>
             </table>
         </div>
+
+        <div style="margin-top: 15px">
+            {{ $fields->withQueryString()->links() }}
+        </div>
     </section>
 
 

@@ -12,7 +12,7 @@ class FieldImagesController extends Controller
 {
     public function index()
     {
-        $fieldImages = FieldImage::all();
+        $fieldImages = FieldImage::filter(request(['search']))->paginate(5);
         return view('pages.field-images.index', compact('fieldImages'));
     }
 

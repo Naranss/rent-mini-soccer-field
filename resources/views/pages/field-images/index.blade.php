@@ -114,6 +114,10 @@
                 </tbody>
             </table>
         </div>
+
+        <div style="margin-top: 15px;">
+            {{ $fieldImages->withQueryString()->links() }}
+        </div>
     </section>
 
 

@@ -12,7 +12,7 @@ class BookingsController extends Controller
     // Menampilkan semua booking (untuk admin atau overview)
     public function index()
     {
-        $bookings = Booking::with(['user', 'field'])->get();
+        $bookings = Booking::with(['user', 'field'])->paginate(10);
         return view('pages.bookings.index', compact('bookings'));
     }
 

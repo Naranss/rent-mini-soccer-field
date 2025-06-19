@@ -23,16 +23,12 @@ class ScheduleSeeder extends Seeder
                 for ($hour = $startHour; $hour < $endHour; $hour++) {
                     $startTime = sprintf('%02d:00', $hour);
                     $endTime = sprintf('%02d:00', $hour + 1);
-                    $user = $users->random();
-                    $status = rand(0, 1) ? 'confirmed' : 'pending';
 
                     Schedule::create([
                         'field_id' => $field->id,
-                        'user_id' => $user->id,
                         'hari' => $day,
                         'start_time' => $startTime,
                         'end_time' => $endTime,
-                        'status' => $status,
                     ]);
                 }
             }
