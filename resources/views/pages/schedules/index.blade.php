@@ -13,10 +13,14 @@
         </a>
     </div>
 
-    <!-- Success Message -->
+    <!-- Success or Error Message -->
     @if (session()->has('success'))
     <div class="mb-6 p-4 rounded-lg bg-green-100 text-green-800 text-sm">
         {{ session('success') }}
+    </div>
+    @elseif (session()->has('error'))
+    <div class="mb-6 p-4 rounded-lg bg-red-100 text-red-800 text-sm">
+        {{ session('error') }}
     </div>
     @endif
 
@@ -47,7 +51,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-                @foreach ($schedules as $schedule)
+                @forelse ($schedules as $schedule)
                 <tr>
                     <td class="px-6 py-4">{{ $schedule->field->name ?? 'Unknown Field' }}</td>
                     <td class="px-6 py-4">{{ $schedule->user->name ?? 'Unknown User' }}</td>
@@ -112,7 +116,11 @@
                         </div>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">No schedules found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

@@ -27,6 +27,7 @@ class SchedulesController extends Controller
                 });
             })
             ->get();
+
         return view('pages.schedules.index', compact('schedules'));
     }
 
@@ -35,7 +36,7 @@ class SchedulesController extends Controller
      */
     public function create()
     {
-        $fields = Field::all();
+        $fields = Field::all(); // Ambil semua field dari database, termasuk Herman Arena, Coki Suka Tidur Arena, Mbah Singo Arena
         $users = User::all();
         return view('pages.schedules.create', compact('fields', 'users'));
     }
@@ -115,7 +116,7 @@ class SchedulesController extends Controller
      */
     public function edit(Schedule $schedule)
     {
-        $fields = Field::all();
+        $fields = Field::all(); // Ambil semua field untuk edit
         $users = User::all();
         $schedule->load(['field', 'user']);
         return view('pages.schedules.edit', compact('schedule', 'fields', 'users'));
