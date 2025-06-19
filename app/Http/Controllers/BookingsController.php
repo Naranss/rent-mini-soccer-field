@@ -13,7 +13,7 @@ class BookingsController extends Controller
     public function index()
     {
         $bookings = Booking::with(['user', 'field'])->get();
-        return view('bookings.index', compact('bookings'));
+        return view('pages.bookings.index', compact('bookings'));
     }
 
     // Customer: Menampilkan form untuk membuat booking baru
@@ -67,7 +67,7 @@ class BookingsController extends Controller
     public function show(Booking $booking)
     {
         $booking->load(['user', 'field']);
-        return view('bookings.show', compact('booking'));
+        return view('pages.bookings.show', compact('booking'));
     }
 
     // Menampilkan form untuk mengedit booking

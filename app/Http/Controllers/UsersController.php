@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +17,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        return view('pages.users.index', compact('users'));
     }
 
     /**
@@ -23,7 +25,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('pages.users.create');
     }
 
     /**
@@ -43,17 +45,16 @@ class UsersController extends Controller
 
         User::create($validated);
 
-        return redirect()->route('users.index')
+        return redirect()->route('pages.users.index')
             ->with('success', 'User created successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Payment $payment,Booking $booking)
     {
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        return view('pages.users.show', compact('payment', 'booking'));
     }
 
     /**
@@ -62,7 +63,7 @@ class UsersController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        return view('pages.users.edit', compact('user'));
     }
 
     /**
