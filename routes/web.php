@@ -24,10 +24,11 @@ Route::get('/location', function () {
 })->name('location');
 
 // Rent routes
-Route::get('/rent', [RentController::class, 'index'])->name('rent');
+Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
 Route::middleware('auth')->group(function () {
     Route::get('/rent/{field}', [RentController::class, 'show'])->name('rent.field');
     Route::post('/rent/{field}', [RentController::class, 'storeBooking'])->name('rent.book');
+    Route::get('/rent/{field}/details/{payment}', [RentController::class, 'details'])->name('rent.details');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');

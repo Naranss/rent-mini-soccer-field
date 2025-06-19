@@ -24,7 +24,7 @@
     <!-- Search Section -->
     <section class="bg-white py-12 shadow-md">
         <div class="container mx-auto px-6 max-w-4xl">
-            <form action="{{ route('rent') }}" method="GET">
+            <form action="{{ route('rent.index') }}" method="GET">
                 <input type="text" name="search" value="{{ old('search', request('search')) }}" placeholder="Search fields by name"
                     class="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </form>
