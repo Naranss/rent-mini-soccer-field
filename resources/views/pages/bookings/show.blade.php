@@ -20,10 +20,6 @@
                 <p class="text-lg font-medium text-gray-900">{{ $booking->user->name }}</p>
             </div>
             <div>
-                <p class="text-sm text-gray-500">Field Name</p>
-                <p class="text-lg font-medium text-gray-900">{{ $booking->field->name }}</p>
-            </div>
-            <div>
                 <p class="text-sm text-gray-500">Date</p>
                 <p class="text-lg text-gray-900">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</p>
             </div>

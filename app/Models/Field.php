@@ -25,11 +25,10 @@ class Field extends Model
         'price' => 'integer',
     ];
 
-    // Return images belong to the owner only
     protected static function booted(): void
     {
         if (Auth::check() && Auth::user()->role == 'OWNER') {
-            static::addGlobalScope('ownerid', function (Builder $builder) {
+            static::addGlobalScope('owner_id', function (Builder $builder) {
                 $builder->where('owner_id', Auth::id());
             });
         }
@@ -57,5 +56,10 @@ class Field extends Model
 
     public function schedules() {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function booking()
+    {
+        return $this->hasMany(Booking::class);
     }
 }
