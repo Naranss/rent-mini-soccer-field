@@ -2,26 +2,31 @@
 
 namespace App\Helpers;
 
-use Midtrans\Config;
+use App\Models\Payment;
 use Midtrans\Snap;
 
 class MidtransHelper
 {
-    public static function generateSnapToken($booking)
+    public static function generateSnapToken(Payment $payment)
     {
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = false;
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
 
         $params = [
             'transaction_details' => [
-                'booking_id' => $booking->booking->booking_id,
-                'amount' => $booking->amount,
+                'order_id' => $payment->order_id,
+                'gross_amount' => $payment->amount
             ]
             ,'customer_details'=>[
-                'name' => $booking->customer->name,
-                'email' => $booking->customer->email,
+                'first_name' => $payment->customer->name,
+                'email' => $payment->customer->email,
             ]
         ];
 

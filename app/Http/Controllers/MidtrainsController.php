@@ -19,7 +19,7 @@ class MidtransController extends Controller
         $orderId = $notification->order_id;
 
         // Find the payment record
-        $payment = Payment::where('booking_id', $orderId)->first();
+        $payment = Payment::where('order_id', $orderId)->first();
 
         if (!$payment) {
             return response()->json(['error' => 'Payment not found'], 404);
@@ -43,9 +43,13 @@ class MidtransController extends Controller
                 $payment->status = 'pending';
                 break;
             case 'deny':
+                $payment->status = 'canceled';
+                break;
             case 'expire':
+                $payment->status = 'canceled';
+                break;
             case 'cancel':
-                $payment->status = 'failed';
+                $payment->status = 'canceled';
                 break;
         }
 

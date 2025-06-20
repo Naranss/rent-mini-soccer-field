@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- @todo: replace set_your_client_key_here with your client key -->
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('midtrans.client_key') }}"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -28,9 +31,8 @@
                 <div>
                     <h2 class="text-2xl font-semibold mb-4">Field Information</h2>
                     <div class="mb-4">
-                        <img src="{{ asset('storage/' . $field->fieldImages[0]->path) }}" 
-                             alt="{{ $field->fieldImages[0]->img_alt }}"
-                             class="w-full h-48 object-cover rounded-lg">
+                        <img src="{{ asset('storage/' . $field->fieldImages[0]->path) }}"
+                            alt="{{ $field->fieldImages[0]->img_alt }}" class="w-full h-48 object-cover rounded-lg">
                     </div>
                     <h3 class="text-xl font-medium">{{ $field->name }}</h3>
                     <p class="text-gray-600">{{ $field->location }}</p>
@@ -45,13 +47,15 @@
                         </div>
                         <div>
                             <span class="font-medium">Date:</span>
-                            <span class="text-gray-700">{{ \Carbon\Carbon::parse($booking->date)->format('l, F j, Y') }}</span>
+                            <span
+                                class="text-gray-700">{{ \Carbon\Carbon::parse($booking->date)->format('l, F j, Y') }}</span>
                         </div>
                         <div>
                             <span class="font-medium">Booked Hours:</span>
                             <ul class="mt-2 space-y-1">
-                                @foreach($bookedHours as $hour)
-                                    <li class="text-gray-700">{{ \Carbon\Carbon::parse($hour->schedule->start_time)->format('H:i') }} - 
+                                @foreach ($bookedHours as $hour)
+                                    <li class="text-gray-700">
+                                        {{ \Carbon\Carbon::parse($hour->schedule->start_time)->format('H:i') }} -
                                         {{ \Carbon\Carbon::parse($hour->schedule->end_time)->format('H:i') }}</li>
                                 @endforeach
                             </ul>
@@ -62,16 +66,18 @@
                         </div>
                         <div>
                             <span class="font-medium">Status:</span>
-                            <span class="px-3 py-1 rounded-full text-sm 
+                            <span
+                                class="px-3 py-1 rounded-full text-sm 
                                 {{ $payment->status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                                 {{ ucfirst($payment->status) }}
                             </span>
                         </div>
                     </div>
 
-                    @if($payment->status === 'unpaid')
+                    @if ($payment->status === 'unpaid')
                         <div class="mt-6">
-                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition">
+                            <button id="pay-button"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition">
                                 Proceed to Payment
                             </button>
                         </div>
@@ -83,6 +89,34 @@
 
     <!-- Footer -->
     <x-footer />
+    <script type="text/javascript">
+        // For example trigger on button clicked, or any time you need
+        var payButton = document.getElementById('pay-button');
+        payButton.addEventListener('click', function() {
+            // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+            window.snap.pay('{{ $snapToken }}', {
+                onSuccess: function(result) {
+                    /* You may add your own implementation here */
+                    alert("payment success!");
+                    console.log(result);
+                },
+                onPending: function(result) {
+                    /* You may add your own implementation here */
+                    alert("wating your payment!");
+                    console.log(result);
+                },
+                onError: function(result) {
+                    /* You may add your own implementation here */
+                    alert("payment failed!");
+                    console.log(result);
+                },
+                onClose: function() {
+                    /* You may add your own implementation here */
+                    alert('you closed the popup without finishing the payment');
+                }
+            })
+        });
+    </script>
 
 </body>
 

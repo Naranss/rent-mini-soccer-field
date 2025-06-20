@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MidtransHelper;
 use App\Models\BookedHour;
 use App\Models\Booking;
 use App\Models\Field;
@@ -97,7 +98,7 @@ class RentController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Booking creation failed: ' . $e->getMessage());
-            
+
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['error' => 'Failed to create booking. Please try again.']);
@@ -113,24 +114,26 @@ class RentController extends Controller
             // Load all necessary relationships
             $payment = Payment::with(['booking'])->findOrFail($payment->id);
             $booking = $payment->booking;
-            
+
             if (!$booking || $booking->field_id !== $field->id) {
                 throw new \Exception('Invalid booking or field information');
             }
 
             // Load field with its images
             $field->load('fieldImages');
-            
+
             // Get booked hours with their schedule information
             $bookedHours = BookedHour::with('schedule')
                 ->where('booking_id', $booking->id)
                 ->orderBy('schedule_id')
                 ->get();
 
-            return view('pages.rents.details', compact('payment', 'field', 'bookedHours', 'booking'));
+            $snapToken = MidtransHelper::generateSnapToken($payment);
+
+            return view('pages.rents.details', compact('payment', 'field', 'bookedHours', 'booking', 'snapToken'));
         } catch (\Exception $e) {
             Log::error('Error displaying booking details: ' . $e->getMessage());
-            
+
             return redirect()->route('rent.index')
                 ->withErrors(['error' => 'Unable to display booking details. Please try again or contact support.']);
         }
