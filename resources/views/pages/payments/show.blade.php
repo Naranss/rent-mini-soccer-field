@@ -8,10 +8,12 @@
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
             <h1 class="text-2xl font-semibold text-gray-800">View Payment: {{ $payment->customer->name }}</h1>
             <div class="flex gap-2">
-                <a href="{{ route('rent.details', [$payment, $payment->booking->field]) }}"
-                    class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition">
-                    Pay
-                </a>
+                @can('isCustomer')
+                    <a href="{{ route('rent.details', [$payment, $payment->booking->field]) }}"
+                        class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition">
+                        Pay
+                    </a>
+                @endcan
                 <a href="{{ route('payments.index') }}"
                     class="px-4 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition">
                     Back
