@@ -12,7 +12,12 @@ class FieldImagesController extends Controller
 {
     public function index()
     {
-        $fieldImages = FieldImage::filter(request(['search']))->paginate(3);
+        if (Auth::user()->role == "OWNER") {
+            $fieldImages = FieldImage::ownerId(Auth::id())->filter(request(['search']))->paginate(3);
+        } else {
+            $fieldImages = FieldImage::filter(request(['search']))->paginate(3);
+        }
+
         return view('pages.field-images.index', compact('fieldImages'));
     }
 

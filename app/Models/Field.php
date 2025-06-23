@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Field extends Model
 {
@@ -25,14 +24,12 @@ class Field extends Model
         'price' => 'integer',
     ];
 
-    protected static function booted(): void
+    // Query field based on owner id
+    public static function scopeOwnerId(Builder $query, $id)
     {
-        if (Auth::check() && Auth::user()->role == 'OWNER') {
-            static::addGlobalScope('owner_id', function (Builder $builder) {
-                $builder->where('owner_id', Auth::id());
-            });
-        }
+        return $query->where('owner_id', $id);
     }
+
 
     // Filter query by field name and owner name
     public function scopeFilter(Builder $query, array $filters)
@@ -50,11 +47,13 @@ class Field extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function fieldImages() {
+    public function fieldImages()
+    {
         return $this->hasMany(FieldImage::class);
     }
 
-    public function schedules() {
+    public function schedules()
+    {
         return $this->hasMany(Schedule::class);
     }
 

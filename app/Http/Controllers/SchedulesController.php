@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Field;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SchedulesController extends Controller
 {
@@ -17,7 +18,11 @@ class SchedulesController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Schedule::with('field')->filter(request('search'))->paginate(6);
+        if (Auth::user()->role == "OWNER") {
+            $schedules = Schedule::with('field')->fieldIds(Auth::user()->fields->pluck('id'))->filter(request('search'))->paginate(6);
+        } else {
+            $schedules = Schedule::with('field')->filter(request('search'))->paginate(6);
+        }
 
         return view('pages.schedules.index', compact('schedules'));
     }

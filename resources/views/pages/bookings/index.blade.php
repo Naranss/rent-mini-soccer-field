@@ -14,12 +14,16 @@
             <div class="mb-6 p-4 rounded-lg bg-green-100 text-green-800 text-sm">
                 {{ session('success') }}
             </div>
+        @elseif (session()->has('error'))
+            <div class="mb-6 p-4 rounded-lg bg-red-100 text-red-800 text-sm">
+                {{ session('error') }}
+            </div>
         @endif
 
         <!-- Search Bar -->
         <form action="{{ route('bookings.index') }}" method="GET" class="mb-6">
             <div class="flex items-center space-x-2">
-                <input type="text" name="search" placeholder="Search by customer"
+                <input type="text" name="search" placeholder="Search by customer or field"
                     value="{{ old('search', request('search')) }}"
                     class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
@@ -34,6 +38,7 @@
                 <thead class="bg-gray-100 text-gray-700 uppercase">
                     <tr>
                         <th class="px-6 py-3">Customer</th>
+                        <th class="px-6 py-3">Field</th>
                         <th class="px-6 py-3">Date</th>
                         <th class="px-6 py-3">Start Time</th>
                         <th class="px-6 py-3">Status</th>
@@ -44,6 +49,7 @@
                     @foreach ($bookings as $booking)
                         <tr>
                             <td class="px-6 py-4">{{ $booking->user->name }}</td>
+                            <td class="px-6 py-4">{{ $booking->field->name }}</td>
                             <td class="px-6 py-4">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
                             <td class="px-6 py-4">
                                 {{ $booking->start_time ? date('H:i', strtotime($booking->start_time)) : '-' }}</td>

@@ -24,15 +24,16 @@ class Booking extends Model
         'start_time' => 'datetime',
     ];
 
-    protected static function booted(): void
-    {
-        if (Auth::check() && Auth::user()->role == 'CUSTOMER') {
-            static::addGlobalScope('user_id', function (Builder $builder) {
-                $builder->where('user_id', Auth::id());
-            });
-        }
+    // Query bookings belong to owner's fields
+    public function scopeFieldIds(Builder $query, $fieldIds) {
+        return $query->whereIn('field_id', $fieldIds);
     }
 
+    // Query bookings belong to customer
+    public function scopeCustomerId(Builder $query, $id) {
+        return $query->where('user_id', $id);
+    }
+    
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {

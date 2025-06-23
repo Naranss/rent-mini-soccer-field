@@ -27,16 +27,16 @@
             @method('PUT')
 
             <div class="grid md:grid-cols-2 gap-5">
-                <!-- Field -->
-                <div>
-                    <label for="field_id" class="block text-sm font-medium text-gray-700 mb-1">Field</label>
-                    <input type="text" id="field_id" name="field_id" required value="{{ $booking->field->name ?? '-' }}"
-                        disabled class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100" />
-                </div>
                 <!-- Customer -->
                 <div>
                     <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">Customer</label>
                     <input type="text" id="user_id" name="user_id" required value="{{ $booking->user->name ?? '-' }}"
+                        disabled class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100" />
+                </div>
+                <!-- Field -->
+                <div>
+                    <label for="field_id" class="block text-sm font-medium text-gray-700 mb-1">Field</label>
+                    <input type="text" id="field_id" name="field_id" required value="{{ $booking->field->name ?? '-' }}"
                         disabled class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100" />
                 </div>
                 <!-- Date -->

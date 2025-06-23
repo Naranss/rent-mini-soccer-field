@@ -26,18 +26,11 @@ class Payment extends Model
         'payment_date' => 'datetime',
     ];
 
-    protected static function booted(): void
+    // Query based on customer_id or rentee_id
+    public function scopeCustomerOwner(Builder $query, $id)
     {
-        if (Auth::check() && Auth::user()->role == 'OWNER') {
-            static::addGlobalScope('renteeid', function (Builder $builder) {
-                $builder->where('rentee_id', Auth::id());
-            });
-        }
-        if (Auth::check() && Auth::user()->role == 'CUSTOMER') {
-            static::addGlobalScope('customerid', function (Builder $builder) {
-                $builder->where('customer_id', Auth::id());
-            });
-        }
+        return $query->where('customer_id', $id)
+            ->orWhere('rentee_id', $id);
     }
 
     public function scopeFilter(Builder $query, array $filters)
