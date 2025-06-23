@@ -21,17 +21,11 @@ class Schedule extends Model
 
 
     // Return schedules belong to the owner only
-    protected static function booted(): void
-    {
-        if (Auth::check() && Auth::user()->role == 'OWNER') {
-            $ownerFieldIds = Auth::user()->fields->pluck('id');
-            static::addGlobalScope('field_id', function (Builder $builder) use ($ownerFieldIds) {
-                $builder->whereIn('field_id', $ownerFieldIds);
-            });
-        }
+    public function scopeFieldIds(Builder $query, $ownerFieldIds) {
+        return $query->whereIn('field_id', $ownerFieldIds);
     }
 
-    public function scopeFilter($query, $search = null)
+    public function scopeFilter(Builder $query, $search = null)
     {
         if ($search) {
             $query->whereHas('field', function ($q) use ($search) {
