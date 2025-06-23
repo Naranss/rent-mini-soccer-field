@@ -13,7 +13,11 @@ class FieldsController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role == "OWNER") {
+            $fields = Field::with('owner')->ownerId(Auth::id())->filter(request(['search']))->paginate(6);
+        } else {
             $fields = Field::with('owner')->filter(request(['search']))->paginate(6);
+        }
 
         return view('pages.fields.index', compact('fields'));
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -12,7 +13,11 @@ class PaymentsController extends Controller
     // Admin: Menampilkan semua pembayaran
     public function index()
     {
-        $payments = Payment::with(['booking', 'customer', 'rentee'])->filter(request(['search']))->paginate(6);
+        if (Auth::user()->role == "ADMIN") {
+            $payments = Payment::with(['booking', 'customer', 'rentee'])->filter(request(['search']))->paginate(6);
+        } else {
+            $payments = Payment::with(['booking', 'customer', 'rentee'])->customerOwner(Auth::id())->filter(request(['search']))->paginate(6);
+        }
         return view('pages.payments.index', compact('payments'));
     }
 

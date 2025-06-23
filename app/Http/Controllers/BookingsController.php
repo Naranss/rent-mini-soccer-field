@@ -13,7 +13,13 @@ class BookingsController extends Controller
     // Menampilkan semua booking (untuk admin atau overview)
     public function index()
     {
-        $bookings = Booking::with(['user', 'field'])->filter(request(['search']))->paginate(6);
+        if (Auth::user()->role == "OWNER") {
+            $bookings = Booking::with(['user', 'field'])->fieldIds(Auth::user()->fields->pluck('id'))->filter(request(['search']))->paginate(6);
+        } elseif (Auth::user()->role == "CUSTOMER") {
+            $bookings = Booking::with(['user', 'field'])->customerId(Auth::id())->filter(request(['search']))->paginate(6);
+        } else {
+            $bookings = Booking::with(['user', 'field'])->filter(request(['search']))->paginate(6);
+        }
         return view('pages.bookings.index', compact('bookings'));
     }
 
@@ -25,6 +31,7 @@ class BookingsController extends Controller
             ->where('booking_id', $booking->id)
             ->orderBy('schedule_id')
             ->get();
+
         return view('pages.bookings.show', compact('booking', 'bookedHours'));
     }
 
