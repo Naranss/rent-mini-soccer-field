@@ -26,8 +26,8 @@ Route::get('/location', function () {
 
 // Rent routes
 Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
-Route::middleware('auth')->group(function () {
-    Route::get('/rent/{field}', [RentController::class, 'show'])->name('rent.field');
+Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('/rent/{field}', [RentController::class, 'show'])->name('rent.field')->withoutMiddleware('customer');
     Route::post('/rent/{field}', [RentController::class, 'storeBooking'])->name('rent.book');
     Route::get('/rent/{field}/details/{payment}', [RentController::class, 'details'])->name('rent.details');
 });
@@ -44,16 +44,17 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
         return view('pages.dashboard');
     })->name('dashboard');
 
-    
     // Booking Routes
-    Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index');
-    Route::get('/bookings/{booking}', [BookingsController::class, 'show'])->name('bookings.show');
-    Route::get('/bookings/{booking}/edit', [BookingsController::class, 'edit'])->name('bookings.edit');
-    Route::put('/bookings/{booking}', [BookingsController::class, 'update'])->name('bookings.update');
-    Route::delete('/bookings/{booking}', [BookingsController::class, 'destroy'])->name('bookings.destroy');
+    Route::group(['middleware' => ['booking', 'admin_or_owner']], function () {
+        Route::get('/bookings', [BookingsController::class, 'index'])->name('bookings.index')->withoutMiddleware(['booking', 'admin_or_owner']);
+        Route::get('/bookings/{booking}', [BookingsController::class, 'show'])->name('bookings.show')->withoutMiddleware(['admin_or_owner']);
+        Route::get('/bookings/{booking}/edit', [BookingsController::class, 'edit'])->name('bookings.edit');
+        Route::put('/bookings/{booking}', [BookingsController::class, 'update'])->name('bookings.update');
+        Route::delete('/bookings/{booking}', [BookingsController::class, 'destroy'])->name('bookings.destroy');
+    });
 
     //Schedule Routes
-    Route::group(['middleware' => 'admin_or_owner'],function(){
+    Route::group(['middleware' => 'admin_or_owner'], function () {
         Route::get('/schedules', [SchedulesController::class, 'index'])->name('schedules.index');
         Route::get('/schedules/create', [SchedulesController::class, 'create'])->name('schedules.create');
         Route::post('/schedules', [SchedulesController::class, 'store'])->name('schedules.store');
@@ -70,7 +71,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
         Route::get('/fields/{field}/edit', [FieldsController::class, 'edit'])->name('fields.edit');
         Route::put('/fields/{field}', [FieldsController::class, 'update'])->name('fields.update');
         Route::delete('/fields/{field}', [FieldsController::class, 'destroy'])->name('fields.destroy');
-    
+
         // Field Image Routes
         Route::get('/field-images', [FieldImagesController::class, 'index'])->name('field-images.index');
         Route::get('/field-images/create', [FieldImagesController::class, 'create'])->name('field-images.create');
@@ -82,19 +83,22 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     });
 
     // Payment Routes
-    
-    Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index');
-    Route::get('/payments/{payment}', [PaymentsController::class, 'show'])->name('payments.show');
-    Route::get('/payments/{payment}/edit', [PaymentsController::class, 'edit'])->name('payments.edit');
-    Route::put('/payments/{payment}', [PaymentsController::class, 'update'])->name('payments.update');
-    Route::delete('/payments/{payment}', [PaymentsController::class, 'destroy'])->name('payments.destroy');
-    
+    Route::group(['middleware' => ['payment', 'admin_or_owner']], function () {
+        Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index')->withoutMiddleware(['payment', 'admin_or_owner']);
+        Route::get('/payments/{payment}', [PaymentsController::class, 'show'])->name('payments.show')->withoutMiddleware('admin_or_owner');
+        Route::get('/payments/{payment}/edit', [PaymentsController::class, 'edit'])->name('payments.edit');
+        Route::put('/payments/{payment}', [PaymentsController::class, 'update'])->name('payments.update');
+        Route::delete('/payments/{payment}', [PaymentsController::class, 'destroy'])->name('payments.destroy');
+    });
+
     // User Routes (admin)
-    Route::get('/users', [UsersController::class, 'index'])->name('users.index')->middleware('admin');
-    Route::get('/users/create', [UsersController::class, 'create'])->name('users.create')->middleware('admin');
-    Route::post('/users', [UsersController::class, 'store'])->name('users.store')->middleware('admin');
-    Route::get('/users/{user}', [UsersController::class, 'show'])->name('users.show')->middleware('admin');
-    Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit')->middleware('admin');
-    Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update')->middleware('admin');
-    Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy')->middleware('admin');
+    Route::group(['middleware' => ['admin']], function () {
+        Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
+        Route::post('/users', [UsersController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}', [UsersController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
+    });
 });
